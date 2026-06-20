@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VerbDojo — Les verbes irréguliers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Luckiest+Guy&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.24.7/babel.min.js"></script>
+<style>
+  :root{
+    --sky:#5C94FC;
+    --sky-deep:#3E7BEF;
+    --cream:#E8F4FF;
+    --ink:#1B1B1B;
+    --ink-soft:#5A5550;
+    --card:#FFFFFF;
+    --line:#1B1B1B;
+    --aaa:#049CD8;   --aaa-bg:#CDEEFC;
+    --aba:#43B047;   --aba-bg:#D7F2D5;
+    --abb:#FF6B35;   --abb-bg:#FFE0CC;
+    --abc:#E52521;   --abc-bg:#FFD4D2;
+    --gold:#FBD000;  --gold-bg:#FFF0A8;
+    --brown:#C77B3D;
+    --radius:16px;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:linear-gradient(180deg,var(--sky) 0%,#8FC8FF 220px,var(--cream) 220px);color:var(--ink);font-family:'Nunito',sans-serif;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3,.display{font-family:'Luckiest Guy',cursive;font-weight:400;letter-spacing:.02em;text-shadow:2px 2px 0 rgba(0,0,0,0.12);}
+  button{font-family:'Nunito',sans-serif;cursor:pointer;}
+  ::selection{background:var(--gold-bg);}
+
+  .app-shell{max-width:980px;margin:0 auto;padding:0 16px 60px;}
+  header.top{position:sticky;top:0;z-index:30;background:var(--sky);border-bottom:4px solid var(--ink);}
+  .topbar{max-width:980px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:12px 16px;gap:12px;}
+  .brand{display:flex;align-items:center;gap:10px;}
+  .brand .mark{width:42px;height:42px;border-radius:12px;background:var(--gold);border:3px solid var(--ink);box-shadow:2px 2px 0 var(--ink);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+  .brand .title{font-family:'Luckiest Guy';font-weight:400;font-size:1.2rem;line-height:1;color:#fff;text-shadow:2px 2px 0 var(--abc),0 0 4px rgba(0,0,0,.3);letter-spacing:.02em;}
+  .brand .sub{font-size:.72rem;color:#EAF4FF;font-weight:700;}
+  .xpwrap{display:flex;align-items:center;gap:8px;}
+  .xpchip{background:var(--gold);color:#5c3d00;border:2.5px solid var(--ink);box-shadow:2px 2px 0 var(--ink);border-radius:999px;padding:6px 12px;font-weight:900;font-size:.8rem;display:flex;align-items:center;gap:6px;white-space:nowrap;}
+  .streakchip{background:var(--abc);color:#fff;border:2.5px solid var(--ink);box-shadow:2px 2px 0 var(--ink);border-radius:999px;padding:6px 12px;font-weight:900;font-size:.8rem;white-space:nowrap;}
+
+  nav.tabs{display:flex;gap:8px;overflow-x:auto;padding:12px 16px;max-width:980px;margin:0 auto;scrollbar-width:none;background:var(--sky);}
+  nav.tabs::-webkit-scrollbar{display:none;}
+  nav.tabs button{flex-shrink:0;border:2.5px solid var(--ink);background:#fff;padding:9px 15px;border-radius:12px;font-weight:800;font-size:.86rem;color:var(--ink);box-shadow:2px 2px 0 var(--ink);transition:.1s;}
+  nav.tabs button.active{background:var(--aba);color:#fff;transform:translate(2px,2px);box-shadow:none;}
+  nav.tabs button:not(.active):active{transform:translate(2px,2px);box-shadow:none;}
+
+  .card{background:var(--card);border:3px solid var(--ink);border-radius:var(--radius);padding:20px;box-shadow:4px 4px 0 rgba(27,27,27,0.18);}
+  .hero{display:grid;gap:22px;padding:28px 4px 6px;}
+  .hero h1{font-size:2.1rem;margin:0 0 8px;color:var(--abc);}
+  .hero p.lead{color:var(--ink-soft);margin:0 0 18px;font-size:1.02rem;max-width:560px;font-weight:600;}
+  .cta-row{display:flex;gap:10px;flex-wrap:wrap;}
+  .btn{border:3px solid var(--ink);border-radius:14px;padding:12px 18px;font-weight:900;font-size:.95rem;display:inline-flex;align-items:center;gap:8px;transition:.08s;box-shadow:3px 3px 0 var(--ink);}
+  .btn-primary{background:var(--abc);color:#fff;}
+  .btn-primary:active{transform:translate(3px,3px);box-shadow:none;}
+  .btn-ghost{background:#fff;color:var(--ink);}
+  .btn-ghost:active{transform:translate(3px,3px);box-shadow:none;}
+
+  .stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-top:18px;}
+  .stat{background:var(--card);border:3px solid var(--ink);border-radius:14px;padding:14px;text-align:center;box-shadow:3px 3px 0 rgba(27,27,27,0.15);}
+  .stat .num{font-family:'Luckiest Guy';font-size:1.6rem;font-weight:400;color:var(--aaa);}
+  .stat .lab{font-size:.72rem;color:var(--ink-soft);font-weight:800;text-transform:uppercase;letter-spacing:.03em;}
+
+  .mindmap-wrap{margin:24px 0 10px;}
+  .mindmap-wrap svg{width:100%;height:auto;display:block;}
+  .leaf{cursor:pointer;}
+  .leaf:hover circle.node{filter:brightness(0.94);}
+  .leaf text{font-family:'Nunito',sans-serif;}
+
+  section.panel{padding:24px 4px;}
+  section.panel h2{font-size:1.5rem;margin:0 0 4px;color:var(--aba);}
+  section.panel p.intro{color:var(--ink-soft);margin:0 0 18px;font-weight:600;}
+
+  .pattern-pill{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:999px;font-weight:900;font-size:.72rem;text-transform:uppercase;letter-spacing:.03em;border:2px solid var(--ink);}
+
+  .rule-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin-top:16px;}
+  .rule-card{border-radius:16px;padding:16px;border:3px solid var(--ink);box-shadow:3px 3px 0 rgba(27,27,27,0.15);}
+  .rule-card h3{margin:2px 0 6px;font-size:1.05rem;font-family:'Nunito';font-weight:800;}
+  .rule-card .ex{font-size:.86rem;color:var(--ink-soft);line-height:1.5;font-weight:600;}
+  .rule-card code{background:rgba(0,0,0,0.08);padding:1px 5px;border-radius:5px;}
+
+  .toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:16px;}
+  .search{flex:1;min-width:180px;padding:11px 14px;border-radius:12px;border:2.5px solid var(--ink);font-size:.95rem;background:var(--card);font-weight:700;}
+  .search:focus{outline:none;border-color:var(--abc);}
+  .filterbtn{border:2.5px solid var(--ink);background:var(--card);border-radius:999px;padding:7px 13px;font-weight:800;font-size:.8rem;box-shadow:2px 2px 0 rgba(27,27,27,.2);}
+  .filterbtn.active{color:#fff;}
+
+  table.verbtable{width:100%;border-collapse:separate;border-spacing:0 8px;}
+  table.verbtable td{padding:10px 12px;font-size:.92rem;}
+  table.verbtable tr{background:var(--card);border:2.5px solid var(--ink);}
+  table.verbtable tr td:first-child{border-radius:12px 0 0 12px;border-left:6px solid;}
+  table.verbtable tr td:last-child{border-radius:0 12px 12px 0;}
+  .v1cell{font-weight:900;}
+  .frcell{color:var(--ink-soft);font-style:italic;font-weight:600;}
+  .speakbtn{border:2px solid var(--ink);background:var(--gold);border-radius:8px;width:32px;height:32px;font-size:.9rem;}
+
+  .grid-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(72px,1fr));gap:8px;margin-top:6px;}
+  @media(min-width:600px){.grid-cards{grid-template-columns:repeat(auto-fill,minmax(96px,1fr));}}
+  .mem-card{aspect-ratio:3/4;border-radius:12px;border:3px solid var(--ink);display:flex;align-items:center;justify-content:center;text-align:center;padding:6px;font-weight:900;font-size:.78rem;line-height:1.2;transition:transform .2s;background:repeating-linear-gradient(45deg,var(--brown),var(--brown) 10px,#D89456 10px,#D89456 20px);color:transparent;box-shadow:2px 2px 0 rgba(27,27,27,.25);}
+  .mem-card.flipped{color:var(--ink);background:#fff;}
+  .mem-card.matched{opacity:.3;}
+  .mem-card:active{transform:scale(.96);}
+  .mem-meta{display:flex;gap:14px;flex-wrap:wrap;font-weight:900;font-size:.85rem;margin-bottom:12px;}
+  .mem-meta span{background:var(--card);border:2.5px solid var(--ink);border-radius:10px;padding:6px 12px;}
+
+  .quiz-modes{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;}
+  .qcard{text-align:center;padding:30px 16px;}
+  .qcard .v1big{font-family:'Luckiest Guy';font-size:2.3rem;font-weight:400;color:var(--abc);}
+  .qcard .frhint{color:var(--ink-soft);margin:6px 0 22px;font-style:italic;font-weight:700;}
+  .opt-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:480px;margin:0 auto;}
+  @media(max-width:480px){.opt-grid{grid-template-columns:1fr;}}
+  .opt-btn{padding:14px;border-radius:14px;border:3px solid var(--ink);background:var(--card);font-weight:800;font-size:1rem;box-shadow:2px 2px 0 rgba(27,27,27,.2);}
+  .opt-btn.correct{background:var(--aba-bg);border-color:var(--aba);}
+  .opt-btn.wrong{background:#FFD2CC;border-color:var(--abc);}
+  .feedback{margin-top:16px;font-weight:900;}
+  .sentence{font-size:1.15rem;line-height:1.7;text-align:center;margin:14px 0 24px;font-weight:700;}
+  .blank-input{border:none;border-bottom:3px solid var(--abc);background:transparent;text-align:center;font-weight:900;font-size:1.1rem;width:140px;font-family:'Nunito';}
+  .blank-input:focus{outline:none;}
+  .free-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:10px 0 18px;}
+  .free-row input{padding:10px 14px;border-radius:10px;border:2.5px solid var(--ink);font-size:1rem;width:150px;text-align:center;font-weight:800;}
+  .progressbar{height:14px;border-radius:99px;background:#fff;border:2.5px solid var(--ink);overflow:hidden;margin-top:14px;}
+  .progressbar > div{height:100%;background:var(--gold);transition:width .3s;}
+
+  .badge-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;margin-top:14px;}
+  .badge{border-radius:14px;padding:14px;text-align:center;border:2.5px solid var(--ink);background:var(--card);}
+  .badge.earned{background:var(--gold-bg);border-color:var(--gold);box-shadow:2px 2px 0 rgba(27,27,27,.2);}
+  .badge .ic{font-size:1.7rem;}
+  .badge .nm{font-weight:900;font-size:.78rem;margin-top:6px;}
+  .badge.locked{opacity:.4;}
+
+  .footer-note{text-align:center;color:var(--ink-soft);font-size:.78rem;margin-top:40px;font-weight:700;}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const {useState,useEffect,useMemo,useRef} = React;
+
+/* ---------------- DATA ---------------- */
+const VERBS = [
+["cut","cut","cut","couper","AAA"],["hit","hit","hit","frapper","AAA"],["put","put","put","mettre","AAA"],
+["cost","cost","cost","coûter","AAA"],["hurt","hurt","hurt","blesser","AAA"],["let","let","let","laisser","AAA"],
+["set","set","set","poser / régler","AAA"],["shut","shut","shut","fermer","AAA"],["read","read","read","lire","AAA"],
+["spread","spread","spread","étaler","AAA"],["burst","burst","burst","éclater","AAA"],["quit","quit","quit","arrêter","AAA"],
+["become","became","become","devenir","ABA"],["come","came","come","venir","ABA"],["run","ran","run","courir","ABA"],
+["bring","brought","brought","apporter","ABB"],["buy","bought","bought","acheter","ABB"],["catch","caught","caught","attraper","ABB"],
+["teach","taught","taught","enseigner","ABB"],["think","thought","thought","penser","ABB"],["fight","fought","fought","se battre","ABB"],
+["seek","sought","sought","chercher","ABB"],["bend","bent","bent","plier","ABB"],["build","built","built","construire","ABB"],
+["lend","lent","lent","prêter","ABB"],["send","sent","sent","envoyer","ABB"],["spend","spent","spent","dépenser","ABB"],
+["feel","felt","felt","ressentir","ABB"],["keep","kept","kept","garder","ABB"],["leave","left","left","partir / laisser","ABB"],
+["lose","lost","lost","perdre","ABB"],["mean","meant","meant","signifier","ABB"],["meet","met","met","rencontrer","ABB"],
+["sleep","slept","slept","dormir","ABB"],["sweep","swept","swept","balayer","ABB"],["dream","dreamt","dreamt","rêver","ABB"],
+["hold","held","held","tenir","ABB"],["hear","heard","heard","entendre","ABB"],["lead","led","led","mener","ABB"],
+["light","lit","lit","allumer","ABB"],["make","made","made","faire / fabriquer","ABB"],["pay","paid","paid","payer","ABB"],
+["say","said","said","dire","ABB"],["sell","sold","sold","vendre","ABB"],["tell","told","told","raconter","ABB"],
+["find","found","found","trouver","ABB"],["have","had","had","avoir","ABB"],["sit","sat","sat","s'asseoir","ABB"],
+["stand","stood","stood","se tenir debout","ABB"],["understand","understood","understood","comprendre","ABB"],
+["win","won","won","gagner","ABB"],["shoot","shot","shot","tirer","ABB"],["get","got","got","obtenir","ABB"],
+["shine","shone","shone","briller","ABB"],["stick","stuck","stuck","coller","ABB"],
+["go","went","gone","aller","ABC"],["be","was","been","être","ABC"],["do","did","done","faire","ABC"],
+["see","saw","seen","voir","ABC"],["eat","ate","eaten","manger","ABC"],["give","gave","given","donner","ABC"],
+["take","took","taken","prendre","ABC"],["write","wrote","written","écrire","ABC"],["drive","drove","driven","conduire","ABC"],
+["ride","rode","ridden","monter (vélo/cheval)","ABC"],["rise","rose","risen","se lever / monter","ABC"],
+["speak","spoke","spoken","parler","ABC"],["break","broke","broken","casser","ABC"],["choose","chose","chosen","choisir","ABC"],
+["freeze","froze","frozen","geler","ABC"],["steal","stole","stolen","voler (dérober)","ABC"],["wake","woke","woken","se réveiller","ABC"],
+["begin","began","begun","commencer","ABC"],["drink","drank","drunk","boire","ABC"],["ring","rang","rung","sonner","ABC"],
+["sing","sang","sung","chanter","ABC"],["sink","sank","sunk","couler","ABC"],["swim","swam","swum","nager","ABC"],
+["fly","flew","flown","voler (dans les airs)","ABC"],["blow","blew","blown","souffler","ABC"],["draw","drew","drawn","dessiner","ABC"],
+["grow","grew","grown","grandir / pousser","ABC"],["know","knew","known","savoir / connaître","ABC"],
+["throw","threw","thrown","lancer","ABC"],["forget","forgot","forgotten","oublier","ABC"],["wear","wore","worn","porter (vêtement)","ABC"],
+["tear","tore","torn","déchirer","ABC"],["swear","swore","sworn","jurer","ABC"],["bite","bit","bitten","mordre","ABC"],
+["hide","hid","hidden","cacher","ABC"],["fall","fell","fallen","tomber","ABC"],["show","showed","shown","montrer","ABC"],
+].map((v,i)=>({id:i, v1:v[0], v2:v[1], v3:v[2], fr:v[3], pattern:v[4]}));
+
+const PATTERNS = {
+  AAA:{label:"AAA — identique", color:"var(--aaa)", bg:"var(--aaa-bg)", desc:"Les 3 formes sont identiques.", example:"cut – cut – cut"},
+  ABA:{label:"ABA — base = participe", color:"var(--aba)", bg:"var(--aba-bg)", desc:"La base et le participe passé sont identiques, seul le prétérit change.", example:"come – came – come"},
+  ABB:{label:"ABB — prétérit = participe", color:"var(--abb)", bg:"var(--abb-bg)", desc:"Le prétérit et le participe passé sont identiques.", example:"buy – bought – bought"},
+  ABC:{label:"ABC — tout différent", color:"var(--abc)", bg:"var(--abc-bg)", desc:"Les 3 formes sont toutes différentes.", example:"go – went – gone"},
+};
+
+/* ---------------- STORAGE ---------------- */
+const STORE_KEY = "verbforge_progress_v1";
+function todayStr(){ return new Date().toISOString().slice(0,10); }
+function loadProgress(){
+  try{
+    const raw = localStorage.getItem(STORE_KEY);
+    if(raw) return JSON.parse(raw);
+  }catch(e){}
+  return {xp:0, streak:0, lastPlay:null, quizCorrect:0, quizTotal:0,
+           patternCorrect:{AAA:0,ABA:0,ABB:0,ABC:0}, memoryWins:0, memoryPerfect:0, badges:[]};
+}
+function saveProgress(p){ try{ localStorage.setItem(STORE_KEY, JSON.stringify(p)); }catch(e){} }
+
+const BADGES = [
+  {id:"start", icon:"🌱", name:"Premier pas", check:p=>p.quizTotal>=1||p.memoryWins>=1},
+  {id:"xp100", icon:"⭐", name:"100 XP", check:p=>p.xp>=100},
+  {id:"xp500", icon:"🌟", name:"500 XP", check:p=>p.xp>=500},
+  {id:"xp1000", icon:"🏆", name:"1000 XP", check:p=>p.xp>=1000},
+  {id:"quiz25", icon:"🎯", name:"25 bonnes réponses", check:p=>p.quizCorrect>=25},
+  {id:"quiz75", icon:"🎯", name:"75 bonnes réponses", check:p=>p.quizCorrect>=75},
+  {id:"AAA", icon:"🔵", name:"Maître AAA", check:p=>p.patternCorrect.AAA>=10},
+  {id:"ABA", icon:"🟢", name:"Maître ABA", check:p=>p.patternCorrect.ABA>=3},
+  {id:"ABB", icon:"🟠", name:"Maître ABB", check:p=>p.patternCorrect.ABB>=25},
+  {id:"ABC", icon:"🟣", name:"Maître ABC", check:p=>p.patternCorrect.ABC>=25},
+  {id:"mem", icon:"🧠", name:"Mémoire d'élite", check:p=>p.memoryWins>=3},
+  {id:"memperfect", icon:"💎", name:"Mémoire parfaite", check:p=>p.memoryPerfect>=1},
+  {id:"streak3", icon:"🔥", name:"Série de 3 jours", check:p=>p.streak>=3},
+  {id:"streak7", icon:"🔥", name:"Série de 7 jours", check:p=>p.streak>=7},
+];
+
+function speak(text){
+  if(!('speechSynthesis' in window)) return;
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = "en-GB"; u.rate = 0.9;
+  window.speechSynthesis.cancel();
+  window.speechSynthesis.speak(u);
+}
+
+/* ---------------- ROOT APP ---------------- */
+function App(){
+  const [tab,setTab] = useState("home");
+  const [progress,setProgress] = useState(loadProgress());
+  const [newBadge,setNewBadge] = useState(null);
+  const [patternFilter,setPatternFilter] = useState(null);
+
+  useEffect(()=>{
+    setProgress(p=>{
+      const t = todayStr();
+      if(p.lastPlay === t) return p;
+      let streak = p.streak;
+      if(p.lastPlay){
+        const diff = (new Date(t) - new Date(p.lastPlay)) / 86400000;
+        streak = diff === 1 ? streak+1 : 1;
+      } else { streak = 1; }
+      const np = {...p, streak, lastPlay:t};
+      saveProgress(np);
+      return np;
+    });
+  },[]);
+
+  function addXP(amount, opts={}){
+    setProgress(p=>{
+      const np = {...p, xp:p.xp+amount};
+      if(opts.quizCorrect) np.quizCorrect = p.quizCorrect+1;
+      if(opts.quizTotal) np.quizTotal = p.quizTotal+1;
+      if(opts.pattern) np.patternCorrect = {...p.patternCorrect, [opts.pattern]: (p.patternCorrect[opts.pattern]||0)+1};
+      if(opts.memoryWin) np.memoryWins = p.memoryWins+1;
+      if(opts.memoryPerfect) np.memoryPerfect = p.memoryPerfect+1;
+      const earnedIds = new Set(p.badges);
+      BADGES.forEach(b=>{ if(!earnedIds.has(b.id) && b.check(np)){ earnedIds.add(b.id); setTimeout(()=>setNewBadge(b),300); } });
+      np.badges = Array.from(earnedIds);
+      saveProgress(np);
+      return np;
+    });
+  }
+
+  function resetProgress(){
+    if(!confirm("Réinitialiser toute ta progression ?")) return;
+    const fresh = {xp:0, streak:0, lastPlay:todayStr(), quizCorrect:0, quizTotal:0,
+      patternCorrect:{AAA:0,ABA:0,ABB:0,ABC:0}, memoryWins:0, memoryPerfect:0, badges:[]};
+    setProgress(fresh); saveProgress(fresh);
+  }
+
+  const level = Math.floor(progress.xp/100)+1;
+  const xpInLevel = progress.xp%100;
+
+  function goList(pattern){ setPatternFilter(pattern); setTab("liste"); }
+
+  return (
+    <div>
+      <header className="top">
+        <div className="topbar">
+          <div className="brand">
+            <div className="mark">🥋</div>
+            <div>
+              <div className="title">VerbDojo</div>
+              <div className="sub">Les verbes irréguliers</div>
+            </div>
+          </div>
+          <div className="xpwrap">
+            <div className="xpchip">⭐ Niv.{level} · {progress.xp} XP</div>
+            <div className="streakchip">🔥 {progress.streak}j</div>
+          </div>
+        </div>
+        <nav className="tabs">
+          {[["home","🏠 Accueil"],["regles","📖 Règles"],["liste","📋 Liste"],["memory","🧠 Memory"],["quiz","🎯 Quiz"],["progres","🏆 Progression"]].map(([k,l])=>(
+            <button key={k} className={tab===k?"active":""} onClick={()=>setTab(k)}>{l}</button>
+          ))}
+        </nav>
+      </header>
+
+      <div className="app-shell">
+        {tab==="home" && <Home onGoList={goList} setTab={setTab} progress={progress} level={level}/>}
+        {tab==="regles" && <Regles onGoList={goList}/>}
+        {tab==="liste" && <ListePage filterInit={patternFilter}/>}
+        {tab==="memory" && <Memory addXP={addXP}/>}
+        {tab==="quiz" && <Quiz addXP={addXP}/>}
+        {tab==="progres" && <Progres progress={progress} level={level} xpInLevel={xpInLevel} onReset={resetProgress}/>}
+        <div className="footer-note">VerbDojo · brot2you · {VERBS.length} verbes irréguliers · fait pour réviser en classe ou à la maison</div>
+      </div>
+
+      {newBadge && (
+        <div onClick={()=>setNewBadge(null)} style={{position:"fixed",inset:0,background:"rgba(61,53,48,0.45)",display:"flex",alignItems:"center",justifyContent:"center",zIndex:50,padding:20}}>
+          <div className="card" style={{textAlign:"center",maxWidth:300}}>
+            <div style={{fontSize:"2.6rem"}}>{newBadge.icon}</div>
+            <h3 style={{margin:"8px 0 4px"}}>Badge débloqué !</h3>
+            <div style={{fontWeight:800}}>{newBadge.name}</div>
+            <button className="btn btn-primary" style={{marginTop:16}} onClick={()=>setNewBadge(null)}>Super !</button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ---------------- HOME / MINDMAP ---------------- */
+function Home({onGoList, setTab, progress, level}){
+  const nodes = [
+    {key:"AAA", x:140, y:110, count:VERBS.filter(v=>v.pattern==="AAA").length},
+    {key:"ABC", x:460, y:110, count:VERBS.filter(v=>v.pattern==="ABC").length},
+    {key:"ABB", x:140, y:370, count:VERBS.filter(v=>v.pattern==="ABB").length},
+    {key:"ABA", x:460, y:370, count:VERBS.filter(v=>v.pattern==="ABA").length},
+  ];
+  const cx=300, cy=240;
+  return (
+    <section>
+      <div className="hero">
+        <div>
+          <h1>Maîtrise les verbes irréguliers 🥋</h1>
+          <p className="lead">{VERBS.length} verbes classés en 4 familles faciles à mémoriser. Apprends les règles, révise la liste, entraîne ta mémoire et teste-toi en quiz.</p>
+          <div className="cta-row">
+            <button className="btn btn-primary" onClick={()=>setTab("quiz")}>🎯 Lancer un quiz</button>
+            <button className="btn btn-ghost" onClick={()=>setTab("memory")}>🧠 Jouer au memory</button>
+            <button className="btn btn-ghost" onClick={()=>setTab("regles")}>📖 Voir les règles</button>
+          </div>
+        </div>
+
+        <div className="mindmap-wrap card">
+          <svg viewBox="0 0 600 500">
+            {nodes.map(n=>(
+              <line key={"l"+n.key} x1={cx} y1={cy} x2={n.x} y2={n.y} stroke={PATTERNS[n.key].color} strokeWidth="3" opacity="0.6"/>
+            ))}
+            <circle cx={cx} cy={cy} r="56" fill="var(--ink)"/>
+            <text x={cx} y={cy-6} textAnchor="middle" fill="#fff" fontFamily="Luckiest Guy" fontSize="14">VERBES</text>
+            <text x={cx} y={cy+16} textAnchor="middle" fill="#fff" fontFamily="Luckiest Guy" fontSize="14">IRRÉGULIERS</text>
+            {nodes.map(n=>(
+              <g key={n.key} className="leaf" onClick={()=>onGoList(n.key)}>
+                <circle className="node" cx={n.x} cy={n.y} r="48" fill={PATTERNS[n.key].bg} stroke={PATTERNS[n.key].color} strokeWidth="3"/>
+                <text x={n.x} y={n.y-6} textAnchor="middle" fontFamily="Luckiest Guy" fontSize="19" fill={PATTERNS[n.key].color}>{n.key}</text>
+                <text x={n.x} y={n.y+16} textAnchor="middle" fontSize="11" fontWeight="800" fill="var(--ink-soft)">{n.count} verbes</text>
+                <rect x={n.x-58} y={n.y+62} width="116" height="22" rx="11" fill={PATTERNS[n.key].bg} stroke={PATTERNS[n.key].color} strokeWidth="1.5"/>
+                <text x={n.x} y={n.y+77} textAnchor="middle" fontSize="10.5" fontWeight="800" fill={PATTERNS[n.key].color}>{PATTERNS[n.key].example.replace(/ – /g,"-")}</text>
+              </g>
+            ))}
+          </svg>
+        </div>
+
+        <div className="stat-grid">
+          <div className="stat"><div className="num">{VERBS.length}</div><div className="lab">Verbes</div></div>
+          <div className="stat"><div className="num">{level}</div><div className="lab">Ton niveau</div></div>
+          <div className="stat"><div className="num">{progress.xp}</div><div className="lab">XP total</div></div>
+          <div className="stat"><div className="num">{progress.streak}</div><div className="lab">Jours de suite</div></div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------------- RÈGLES ---------------- */
+function Regles({onGoList}){
+  return (
+    <section className="panel">
+      <h2>📖 Comprendre les verbes irréguliers</h2>
+      <p className="intro">Un verbe irrégulier a une forme au prétérit (V2) et/ou au participe passé (V3) qui ne se forme pas en ajoutant <code>-ed</code> à la base (V1).</p>
+
+      <div className="rule-grid">
+        <div className="rule-card" style={{background:"var(--card)"}}>
+          <h3>🔹 V1 — Base</h3>
+          <div className="ex">La forme de base, utilisée au présent simple (sauf 3e pers. du sing. : <code>+s</code>) et après <code>to</code>, <code>will</code>, <code>can</code>...<br/><i>I go / to go / I will go</i></div>
+        </div>
+        <div className="rule-card" style={{background:"var(--card)"}}>
+          <h3>🔹 V2 — Prétérit</h3>
+          <div className="ex">Utilisé pour le passé simple (preterit), une action terminée à un moment précis du passé.<br/><i>Yesterday, I went to school.</i></div>
+        </div>
+        <div className="rule-card" style={{background:"var(--card)"}}>
+          <h3>🔹 V3 — Participe passé</h3>
+          <div className="ex">Utilisé avec <code>have/has</code> (present perfect) et dans la voix passive.<br/><i>I have never gone there. / It was made in France.</i></div>
+        </div>
+      </div>
+
+      <h2 style={{marginTop:30}}>🧩 4 familles pour mieux mémoriser</h2>
+      <p className="intro">Regrouper les verbes par "motif" (pattern) rend la mémorisation bien plus facile que de les apprendre un par un.</p>
+      <div className="rule-grid">
+        {Object.entries(PATTERNS).map(([key,p])=>(
+          <div key={key} className="rule-card" style={{background:p.bg, borderColor:p.color, cursor:"pointer"}} onClick={()=>onGoList(key)}>
+            <span className="pattern-pill" style={{background:p.color,color:"#fff"}}>{key}</span>
+            <h3>{p.label.split(" — ")[1]}</h3>
+            <div className="ex">{p.desc}<br/><b>{p.example}</b></div>
+          </div>
+        ))}
+      </div>
+
+      <div className="card" style={{marginTop:24}}>
+        <h3 style={{marginTop:0}}>💡 Astuces pour apprendre</h3>
+        <ul style={{color:"var(--ink-soft)", lineHeight:1.8, paddingLeft:20}}>
+          <li>Apprends les verbes <b>par famille</b> (AAA, ABA, ABB, ABC) plutôt que dans l'ordre alphabétique.</li>
+          <li>Répète les verbes <b>à voix haute</b> en rythme : "go — went — gone, go — went — gone".</li>
+          <li>Utilise le bouton 🔊 dans la liste pour entendre la prononciation correcte.</li>
+          <li>Teste-toi régulièrement avec le Quiz : la répétition espacée est la méthode la plus efficace.</li>
+          <li>Le verbe <code>be</code> est le seul à avoir deux formes au prétérit : <code>was</code> (I/he/she/it) et <code>were</code> (you/we/they).</li>
+        </ul>
+      </div>
+    </section>
+  );
+}
+
+/* ---------------- LISTE ---------------- */
+function ListePage({filterInit}){
+  const [q,setQ] = useState("");
+  const [filter,setFilter] = useState(filterInit||null);
+  useEffect(()=>{ setFilter(filterInit||null); },[filterInit]);
+
+  const filtered = VERBS.filter(v=>{
+    if(filter && v.pattern!==filter) return false;
+    if(!q) return true;
+    const s = q.toLowerCase();
+    return v.v1.includes(s)||v.v2.includes(s)||v.v3.includes(s)||v.fr.toLowerCase().includes(s);
+  }).sort((a,b)=>a.v1.localeCompare(b.v1));
+
+  return (
+    <section className="panel">
+      <h2>📋 Liste complète</h2>
+      <p className="intro">{VERBS.length} verbes irréguliers — cherche, filtre par famille, clique sur 🔊 pour écouter.</p>
+      <div className="toolbar">
+        <input className="search" placeholder="Rechercher un verbe ou une traduction..." value={q} onChange={e=>setQ(e.target.value)}/>
+        <button className="filterbtn" style={!filter?{background:"var(--ink)",color:"#fff",borderColor:"var(--ink)"}:{}} onClick={()=>setFilter(null)}>Tous</button>
+        {Object.entries(PATTERNS).map(([k,p])=>(
+          <button key={k} className={"filterbtn"+(filter===k?" active":"")} style={filter===k?{background:p.color,borderColor:p.color}:{}} onClick={()=>setFilter(filter===k?null:k)}>{k}</button>
+        ))}
+      </div>
+      <div style={{overflowX:"auto"}}>
+        <table className="verbtable">
+          <tbody>
+            {filtered.map(v=>(
+              <tr key={v.id}>
+                <td style={{borderLeftColor:PATTERNS[v.pattern].color, width:36}}>
+                  <button className="speakbtn" onClick={()=>speak(v.v1+", "+v.v2+", "+v.v3)}>🔊</button>
+                </td>
+                <td className="v1cell">{v.v1}</td>
+                <td>{v.v2}</td>
+                <td>{v.v3}</td>
+                <td className="frcell">{v.fr}</td>
+                <td><span className="pattern-pill" style={{background:PATTERNS[v.pattern].bg, color:PATTERNS[v.pattern].color}}>{v.pattern}</span></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        {filtered.length===0 && <p style={{color:"var(--ink-soft)",textAlign:"center"}}>Aucun verbe trouvé.</p>}
+      </div>
+    </section>
+  );
+}
+
+/* ---------------- MEMORY ---------------- */
+function shuffle(arr){ const a=[...arr]; for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+
+function Memory({addXP}){
+  const [size,setSize] = useState(8);
+  const [cards,setCards] = useState(null);
+  const [flipped,setFlipped] = useState([]);
+  const [matched,setMatched] = useState([]);
+  const [moves,setMoves] = useState(0);
+  const [errors,setErrors] = useState(0);
+  const lockRef = useRef(false);
+
+  function startGame(){
+    const chosen = shuffle(VERBS).slice(0,size);
+    let deck = [];
+    chosen.forEach(v=>{
+      deck.push({uid:v.id+"-a", verbId:v.id, label:v.v1, side:"v1"});
+      deck.push({uid:v.id+"-b", verbId:v.id, label:v.v2+" / "+v.v3, side:"v23"});
+    });
+    setCards(shuffle(deck));
+    setFlipped([]); setMatched([]); setMoves(0); setErrors(0);
+  }
+  useEffect(()=>{ startGame(); },[size]);
+
+  function flip(uid){
+    if(lockRef.current) return;
+    if(flipped.includes(uid)||matched.includes(uid)) return;
+    const nf = [...flipped, uid];
+    setFlipped(nf);
+    if(nf.length===2){
+      lockRef.current = true;
+      setMoves(m=>m+1);
+      const c1 = cards.find(c=>c.uid===nf[0]);
+      const c2 = cards.find(c=>c.uid===nf[1]);
+      if(c1.verbId===c2.verbId){
+        setTimeout(()=>{
+          const nm = [...matched, c1.uid, c2.uid];
+          setMatched(nm);
+          setFlipped([]);
+          lockRef.current=false;
+          addXP(5,{});
+          if(nm.length===cards.length){
+            addXP(15,{memoryWin:true});
+            if(errors===0) addXP(15,{memoryPerfect:true});
+          }
+        },450);
+      } else {
+        setErrors(e=>e+1);
+        setTimeout(()=>{ setFlipped([]); lockRef.current=false; },800);
+      }
+    }
+  }
+
+  if(!cards) return null;
+  const done = matched.length===cards.length;
+
+  return (
+    <section className="panel">
+      <h2>🧠 Memory des verbes</h2>
+      <p className="intro">Retrouve chaque verbe de base et sa paire prétérit / participe passé.</p>
+      <div className="toolbar">
+        {[6,8,12].map(s=>(
+          <button key={s} className={"filterbtn"+(size===s?" active":"")} style={size===s?{background:"var(--ink)",color:"#fff"}:{}} onClick={()=>setSize(s)}>{s} paires</button>
+        ))}
+        <button className="btn btn-ghost" onClick={startGame}>🔄 Nouvelle partie</button>
+      </div>
+      <div className="mem-meta">
+        <span>🔁 Coups : {moves}</span>
+        <span>❌ Erreurs : {errors}</span>
+        <span>✅ Paires : {matched.length/2}/{cards.length/2}</span>
+      </div>
+      <div className="grid-cards">
+        {cards.map(c=>{
+          const isUp = flipped.includes(c.uid)||matched.includes(c.uid);
+          const isMatched = matched.includes(c.uid);
+          return (
+            <button key={c.uid} className={"mem-card"+(isUp?" flipped":"")+(isMatched?" matched":"")}
+              style={isUp?{background: c.side==="v1" ? "var(--abc-bg)" : "var(--aaa-bg)", color:"var(--ink)"}:{}}
+              onClick={()=>flip(c.uid)}>
+              {isUp ? c.label : "?"}
+            </button>
+          );
+        })}
+      </div>
+      {done && (
+        <div className="card" style={{marginTop:18, textAlign:"center", background:"var(--aba-bg)"}}>
+          <h3 style={{margin:"4px 0"}}>🎉 Bravo, grille terminée !</h3>
+          <p style={{margin:0,color:"var(--ink-soft)"}}>{moves} coups · {errors} erreurs{errors===0 && " · Mémoire parfaite 💎"}</p>
+        </div>
+      )}
+    </section>
+  );
+}
+
+/* ---------------- QUIZ ---------------- */
+function pick(arr,n,excludeIdx){
+  const pool = arr.filter((_,i)=>i!==excludeIdx);
+  return shuffle(pool).slice(0,n);
+}
+
+function QCMQuestion({field, addXP}){ // field: "v2" or "v3"
+  const [q,setQ] = useState(null);
+  const [chosen,setChosen] = useState(null);
+
+  function newQ(){
+    const idx = Math.floor(Math.random()*VERBS.length);
+    const verb = VERBS[idx];
+    const distractors = pick(VERBS,3,idx).map(v=>v[field]);
+    const opts = shuffle([verb[field], ...distractors]);
+    setQ({verb, opts}); setChosen(null);
+  }
+  useEffect(newQ,[field]);
+  if(!q) return null;
+
+  function answer(opt){
+    if(chosen) return;
+    setChosen(opt);
+    const correct = opt===q.verb[field];
+    addXP(correct?10:0, {quizTotal:true, quizCorrect:correct, pattern: correct?q.verb.pattern:undefined});
+    setTimeout(newQ, 1100);
+  }
+
+  return (
+    <div className="card qcard">
+      <div style={{fontSize:".8rem",fontWeight:800,color:"var(--ink-soft)",textTransform:"uppercase"}}>
+        {field==="v2" ? "Quel est le prétérit ?" : "Quel est le participe passé ?"}
+      </div>
+      <div className="v1big">{q.verb.v1}</div>
+      <div className="frhint">{q.verb.fr}</div>
+      <div className="opt-grid">
+        {q.opts.map(o=>{
+          let cls = "opt-btn";
+          if(chosen){
+            if(o===q.verb[field]) cls += " correct";
+            else if(o===chosen) cls += " wrong";
+          }
+          return <button key={o} className={cls} onClick={()=>answer(o)}>{o}</button>;
+        })}
+      </div>
+    </div>
+  );
+}
+
+function GapFill({field, addXP}){ // field v2 (preterit) or v3 (perfect)
+  const [q,setQ] = useState(null);
+  const [val,setVal] = useState("");
+  const [result,setResult] = useState(null);
+  const subjects = field==="v2" ? ["I","You","She","We","They"] : ["I","She","We","They"];
+
+  function newQ(){
+    const idx = Math.floor(Math.random()*VERBS.length);
+    const verb = VERBS[idx];
+    const subj = subjects[Math.floor(Math.random()*subjects.length)];
+    setQ({verb, subj}); setVal(""); setResult(null);
+  }
+  useEffect(newQ,[field]);
+  if(!q) return null;
+
+  function expected(){
+    if(q.verb.v1==="be"){
+      return field==="v2" ? (["I","She","He","It"].includes(q.subj) ? "was" : "were") : "been";
+    }
+    return q.verb[field];
+  }
+
+  function check(){
+    if(result) return;
+    const correct = val.trim().toLowerCase()===expected().toLowerCase();
+    setResult(correct?"ok":"ko");
+    addXP(correct?10:0, {quizTotal:true, quizCorrect:correct, pattern: correct?q.verb.pattern:undefined});
+    setTimeout(newQ, 1400);
+  }
+
+  const sentence = field==="v2"
+    ? <>Yesterday, <b>{q.subj}</b> ___ <span style={{color:"var(--ink-soft)"}}>(to {q.verb.v1})</span></>
+    : <><b>{q.subj}</b> {["I","You"].includes(q.subj)?"have":"has"} never ___ <span style={{color:"var(--ink-soft)"}}>(to {q.verb.v1})</span> before</>;
+
+  return (
+    <div className="card qcard">
+      <div style={{fontSize:".8rem",fontWeight:800,color:"var(--ink-soft)",textTransform:"uppercase"}}>Texte à trous — {field==="v2"?"prétérit":"present perfect"}</div>
+      <div className="sentence">{sentence}</div>
+      <div className="free-row">
+        <input value={val} onChange={e=>setVal(e.target.value)} onKeyDown={e=>e.key==="Enter"&&check()}
+          style={result==="ok"?{borderColor:"var(--aba)",background:"var(--aba-bg)"}:result==="ko"?{borderColor:"#D9694F",background:"#FAD9D4"}:{}}/>
+        <button className="btn btn-primary" onClick={check}>Valider</button>
+      </div>
+      {result && <div className="feedback" style={{color:result==="ok"?"#2f7a44":"#c1492f"}}>
+        {result==="ok" ? "✅ Correct !" : "❌ Réponse attendue : " + expected()}
+      </div>}
+    </div>
+  );
+}
+
+function FreeType({addXP}){
+  const [q,setQ] = useState(null);
+  const [v2,setV2] = useState(""); const [v3,setV3] = useState("");
+  const [result,setResult] = useState(null);
+
+  function newQ(){ setQ(VERBS[Math.floor(Math.random()*VERBS.length)]); setV2(""); setV3(""); setResult(null); }
+  useEffect(newQ,[]);
+  if(!q) return null;
+
+  function check(){
+    if(result) return;
+    const okV2 = v2.trim().toLowerCase()===q.v2.toLowerCase() || (q.v1==="be" && ["was","were"].includes(v2.trim().toLowerCase()));
+    const okV3 = v3.trim().toLowerCase()===q.v3.toLowerCase();
+    const correct = okV2 && okV3;
+    setResult({okV2, okV3});
+    addXP(correct?15:0, {quizTotal:true, quizCorrect:correct, pattern: correct?q.pattern:undefined});
+    setTimeout(newQ, 1700);
+  }
+
+  return (
+    <div className="card qcard">
+      <div style={{fontSize:".8rem",fontWeight:800,color:"var(--ink-soft)",textTransform:"uppercase"}}>Saisie libre</div>
+      <div className="v1big">{q.v1}</div>
+      <div className="frhint">{q.fr}</div>
+      <div className="free-row">
+        <input placeholder="Prétérit (V2)" value={v2} onChange={e=>setV2(e.target.value)}
+          style={result?{borderColor: result.okV2?"var(--aba)":"#D9694F", background: result.okV2?"var(--aba-bg)":"#FAD9D4"}:{}}/>
+        <input placeholder="Participe (V3)" value={v3} onChange={e=>setV3(e.target.value)}
+          style={result?{borderColor: result.okV3?"var(--aba)":"#D9694F", background: result.okV3?"var(--aba-bg)":"#FAD9D4"}:{}}/>
+      </div>
+      <button className="btn btn-primary" onClick={check}>Valider</button>
+      {result && <div className="feedback">{(result.okV2&&result.okV3) ? "✅ Parfait !" : `Réponse : ${q.v2} – ${q.v3}`}</div>}
+    </div>
+  );
+}
+
+function Quiz({addXP}){
+  const [mode,setMode] = useState("v2");
+  return (
+    <section className="panel">
+      <h2>🎯 Quiz</h2>
+      <p className="intro">Choisis un mode d'entraînement. Chaque bonne réponse rapporte de l'XP.</p>
+      <div className="quiz-modes">
+        <button className={"filterbtn"+(mode==="v2"?" active":"")} style={mode==="v2"?{background:"var(--ink)",color:"#fff"}:{}} onClick={()=>setMode("v2")}>QCM Prétérit</button>
+        <button className={"filterbtn"+(mode==="v3"?" active":"")} style={mode==="v3"?{background:"var(--ink)",color:"#fff"}:{}} onClick={()=>setMode("v3")}>QCM Participe</button>
+        <button className={"filterbtn"+(mode==="gap2"?" active":"")} style={mode==="gap2"?{background:"var(--ink)",color:"#fff"}:{}} onClick={()=>setMode("gap2")}>Texte à trous (passé)</button>
+        <button className={"filterbtn"+(mode==="gap3"?" active":"")} style={mode==="gap3"?{background:"var(--ink)",color:"#fff"}:{}} onClick={()=>setMode("gap3")}>Texte à trous (perfect)</button>
+        <button className={"filterbtn"+(mode==="free"?" active":"")} style={mode==="free"?{background:"var(--ink)",color:"#fff"}:{}} onClick={()=>setMode("free")}>Saisie libre</button>
+      </div>
+      {mode==="v2" && <QCMQuestion field="v2" addXP={addXP}/>}
+      {mode==="v3" && <QCMQuestion field="v3" addXP={addXP}/>}
+      {mode==="gap2" && <GapFill field="v2" addXP={addXP}/>}
+      {mode==="gap3" && <GapFill field="v3" addXP={addXP}/>}
+      {mode==="free" && <FreeType addXP={addXP}/>}
+    </section>
+  );
+}
+
+/* ---------------- PROGRESSION ---------------- */
+function Progres({progress, level, xpInLevel, onReset}){
+  return (
+    <section className="panel">
+      <h2>🏆 Ta progression</h2>
+      <div className="stat-grid" style={{marginTop:0}}>
+        <div className="stat"><div className="num">{level}</div><div className="lab">Niveau</div></div>
+        <div className="stat"><div className="num">{progress.xp}</div><div className="lab">XP total</div></div>
+        <div className="stat"><div className="num">{progress.quizCorrect}/{progress.quizTotal}</div><div className="lab">Quiz réussis</div></div>
+        <div className="stat"><div className="num">{progress.streak}</div><div className="lab">Jours de suite</div></div>
+      </div>
+      <div className="progressbar"><div style={{width:xpInLevel+"%"}}></div></div>
+      <p style={{color:"var(--ink-soft)",fontSize:".85rem",marginTop:6}}>{xpInLevel}/100 XP avant le niveau {level+1}</p>
+
+      <h2 style={{marginTop:30}}>Par famille</h2>
+      <div className="rule-grid">
+        {Object.entries(PATTERNS).map(([k,p])=>(
+          <div key={k} className="rule-card" style={{background:p.bg, borderColor:p.color}}>
+            <span className="pattern-pill" style={{background:p.color,color:"#fff"}}>{k}</span>
+            <div style={{fontWeight:800, marginTop:8, fontSize:"1.3rem"}}>{progress.patternCorrect[k]||0}</div>
+            <div style={{color:"var(--ink-soft)",fontSize:".82rem"}}>bonnes réponses</div>
+          </div>
+        ))}
+      </div>
+
+      <h2 style={{marginTop:30}}>Badges ({progress.badges.length}/{BADGES.length})</h2>
+      <div className="badge-grid">
+        {BADGES.map(b=>{
+          const earned = progress.badges.includes(b.id);
+          return (
+            <div key={b.id} className={"badge"+(earned?" earned":" locked")}>
+              <div className="ic">{b.icon}</div>
+              <div className="nm">{b.name}</div>
+            </div>
+          );
+        })}
+      </div>
+
+      <button className="btn btn-ghost" style={{marginTop:30}} onClick={onReset}>🗑️ Réinitialiser ma progression</button>
+    </section>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script>
+</body>
+</html>
