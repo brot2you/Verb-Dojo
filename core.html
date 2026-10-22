@@ -801,7 +801,7 @@ function Progres({progress, level, xpInLevel, onReset}){
           const earned = progress.badges.includes(b.id);
           return (
             <div key={b.id} className={"badge"+(earned?" earned":" locked")}>
-              <div className="ic">{b.icon}</div>
+              <div className="ic"><img className="dojo-achievement-art" src={"assets/badges/"+b.id+".png"} alt="" loading="lazy" onError={e=>{e.currentTarget.style.display="none"; e.currentTarget.parentNode.textContent=b.icon;}}/></div>
               <div className="nm">{b.name}</div>
             </div>
           );
