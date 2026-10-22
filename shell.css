@@ -106,3 +106,18 @@ main{max-width:1250px}
 .v5-arena-note{position:absolute;right:12px;bottom:7px;font-size:10px;color:white;font-weight:800;z-index:2}
 @media(max-width:800px){.v5-hero-cast{width:39%}.hero-overlay{max-width:66%}.v5-cast-mentor{display:none}.clan-card{min-height:240px}}
 @media(max-width:620px){.hero-overlay{max-width:88%}.v5-hero-cast{right:-15px;width:35%;opacity:.47}.v5-cast .v5-character{width:140px}.hero-overlay h1{font-size:39px}.clan-card{min-height:215px}.v5-clan-portrait{height:86px}.v5-clan-portrait .v5-character{height:97px}.v5-battle{gap:9px;min-height:205px}.v5-fighter{width:85px}.v5-fighter .v5-character{height:125px}.v5-versus{font-size:39px}.v5-arena-note{display:none}}
+
+/* V6 characters: transparent PNG overlay with safe SVG fallback until images load */
+.v6-portrait{display:block;position:relative;width:100%;height:100%;min-width:0;min-height:0}
+.v6-portrait>img,.v6-portrait>.v6-fallback{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center bottom}
+.v6-portrait>img{opacity:0;transition:opacity .2s ease;z-index:2}
+.v6-portrait.v6-loaded>img{opacity:1}
+.v6-portrait.v6-loaded>.v6-fallback{visibility:hidden}
+.v6-fallback{display:flex;justify-content:center;align-items:end}
+.v6-fallback svg{width:100%;height:100%}
+.v5-cast .v6-portrait{width:clamp(155px,18vw,255px);height:310px}
+.v5-clan-portrait .v6-portrait{width:115px;height:132px}
+.v5-fighter .v6-portrait{width:135px;height:165px}
+.v5-opponent .v6-portrait{transform:scaleX(-1)}
+@media(max-width:800px){.v5-cast .v6-portrait{height:245px;width:175px}}
+@media(max-width:620px){.v5-cast .v6-portrait{height:180px;width:140px}.v5-clan-portrait .v6-portrait{height:97px;width:92px}.v5-fighter .v6-portrait{height:125px;width:100px}}
