@@ -20,3 +20,31 @@
 .sensei-copy{position:relative;z-index:1}.sensei-copy small{display:block;color:#edc886;font-size:11px;font-weight:900;letter-spacing:1.8px}.sensei-copy strong{display:block;font:700 22px Fredoka,Nunito,sans-serif;margin:3px 0 4px}.sensei-copy p{margin:0;color:#efe8db;font-size:13px;line-height:1.55}.sensei-cta{white-space:nowrap;margin-left:auto;align-self:center;background:#f2cc83;color:#27364a;border:1px solid #fff0c9;border-radius:10px;font-weight:900;padding:10px 14px;cursor:pointer;z-index:1}
 .sensei-cta:hover{background:#fff0c9}
 @media(max-width:620px){.navigation .nav-icon{width:27px;height:27px;font-size:18px;border-radius:9px}.sensei-card{padding:12px;gap:10px;flex-wrap:wrap}.sensei-avatar{width:60px;height:60px}.sensei-avatar svg{width:54px;height:54px}.sensei-copy{flex:1;min-width:190px}.sensei-copy strong{font-size:18px}.sensei-cta{width:100%;margin:0}.zone{min-height:105px}}
+
+/* V3 — Daily quest board */
+.daily-panel{margin:24px 0 10px;padding:23px;border-radius:22px;border:2px solid #d4ad75;background:linear-gradient(145deg,#fffaf0,#f3e5ce);box-shadow:0 12px 32px #4a382821}
+.daily-head{display:flex;justify-content:space-between;gap:18px;align-items:center}
+.daily-head small{color:#a46e3b;font-size:11px;letter-spacing:1.8px;font-weight:900}
+.daily-head h2{font:700 30px Fredoka,sans-serif;margin:5px 0}
+.daily-head p{margin:0;font-size:13px;color:#766452;font-weight:700}
+.daily-count{min-width:88px;text-align:center;padding:9px;border:1px solid #e0bd82;border-radius:14px;background:#fff8e6}
+.daily-count strong{display:block;font:700 28px Fredoka,sans-serif;color:#a36638}
+.daily-count span{font-size:9px;letter-spacing:1px;font-weight:900}
+.daily-progress{height:9px;margin:18px 0;background:#e7d7bf;border-radius:99px;overflow:hidden}
+.daily-progress span{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,#7c9e79,#c2b965);transition:width .3s}
+.daily-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.daily-step{display:flex;align-items:center;gap:10px;padding:14px 12px;border:1px solid #e0cdb0;border-radius:15px;background:#fffdf7;min-width:0}
+.daily-step.is-done{border-color:#a1bb97;background:#f4faed}
+.daily-step-icon{flex:none;display:grid;place-items:center;font-size:24px;background:#283a56;color:#f7d48d;border-radius:13px;width:43px;height:48px}
+.daily-step-copy{flex:1;min-width:0}
+.daily-step-copy small{display:block;color:#ae885b;font-size:9px;font-weight:900}
+.daily-step-copy strong{display:block;font-size:12px;font-weight:900}
+.daily-step-copy span{display:block;font-size:10px;color:#85766c}
+.daily-open{border:0;border-radius:9px;background:#e9c47d;padding:10px 9px;font-size:10px;font-weight:900;color:#243046}
+.daily-check{display:flex;gap:4px;align-items:center;font-size:10px;font-weight:900;cursor:pointer}
+.daily-check input{accent-color:#5e9565;width:17px;height:17px}
+.daily-finish{font-weight:900;color:#478052;text-align:center}
+.daily-hint{font-size:11px;color:#8b7865;margin:13px 0 0}
+[hidden]{display:none!important}
+@media(max-width:760px){.daily-grid{grid-template-columns:1fr}}
+@media(max-width:420px){.daily-panel{padding:14px}.daily-head h2{font-size:23px}.daily-step{gap:7px;padding:10px 8px}.daily-step-icon{width:34px;height:40px;font-size:19px}.daily-check span{display:none}}
