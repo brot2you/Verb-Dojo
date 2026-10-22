@@ -395,10 +395,13 @@ function Home({onGoList, setTab, progress, level}){
                 <rect x={n.x-91} y={n.y-83} width="182" height="172" rx="24" fill="#48331e" opacity=".19" transform="translate(0 7)"/>
                 <rect x={n.x-91} y={n.y-83} width="182" height="172" rx="24" fill={n.back} stroke={n.color} strokeWidth="5"/>
                 <rect x={n.x-83} y={n.y-75} width="166" height="156" rx="18" fill="none" stroke="#fff" strokeWidth="2" opacity=".76"/>
-                <circle className="dojo-map-crest-glow" cx={n.x} cy={n.y-48} r="32" fill={n.color} opacity=".15"/>
-                <circle className="dojo-map-crest-back" cx={n.x} cy={n.y-48} r="29" fill={n.color} stroke="#fff4cf" strokeWidth="3"/>
-                <image className="dojo-map-crest-img" href={n.crest} x={n.x-33} y={n.y-81} width="66" height="66" preserveAspectRatio="xMidYMid meet"/>
-                <text className="dojo-map-crest-fallback" x={n.x} y={n.y-40} textAnchor="middle" fontSize="25" fontWeight="900" fill="#fff">{n.sigil}</text>
+                <circle className="dojo-map-crest-glow" cx={n.x} cy={n.y-44} r="28" fill={n.color} opacity=".17"/>
+                <circle className="dojo-map-crest-back" cx={n.x} cy={n.y-44} r="27" fill={n.color} stroke="#fff4cf" strokeWidth="3"/>
+                <svg x={n.x-26} y={n.y-70} width="52" height="52" viewBox="0 0 52 52" overflow="hidden" className="dojo-map-crest-window">
+                  <image className="dojo-map-crest-img" href={n.crest} x="0" y="0" width="52" height="52" preserveAspectRatio="xMidYMid meet"/>
+                </svg>
+                <rect className="dojo-map-label-plate" x={n.x-83} y={n.y-8} width="166" height="90" rx="10" fill={n.back} opacity=".98"/>
+                <path d={`M${n.x-68} ${n.y+17}h136`} stroke={n.color} strokeWidth="1.2" opacity=".23"/>
                 <text x={n.x} y={n.y+13} textAnchor="middle" fill={n.color} fontSize="20" fontWeight="900">{n.title}</text>
                 <text x={n.x} y={n.y+35} textAnchor="middle" fill="#29334a" fontSize="17" fontWeight="900">{n.key} · {VERBS.filter(v=>v.pattern===n.key).length} verbs</text>
                 <text x={n.x} y={n.y+56} textAnchor="middle" fill="#4d4c4b" fontSize="12.5" fontWeight="800">{n.ex}</text>
