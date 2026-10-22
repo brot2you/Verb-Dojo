@@ -272,3 +272,11 @@ main{max-width:1250px}
 .clan-card .clan-sigil{flex-basis:46px!important;width:46px!important;height:46px!important}
 .sensei-avatar{width:72px!important;height:72px!important;flex-basis:72px!important}
 }
+
+/* V7.2 — accurately centered six individual menu illustrations */
+.navigation .nav-icon,.v4-locations .zone-emblem{box-sizing:border-box!important;display:flex!important;align-items:center!important;justify-content:center!important;position:relative!important;overflow:visible!important}
+.navigation .nav-icon{flex:0 0 48px!important;width:48px!important;height:48px!important}
+.v4-locations .zone-emblem{flex:0 0 62px!important;width:62px!important;height:62px!important;margin-inline:auto!important}
+.navigation .nav-icon .v7-icon,.v4-locations .zone-emblem .v7-icon{position:absolute!important;width:100%!important;height:100%!important;inset:0!important;object-fit:contain!important;object-position:50% 50%!important;padding:0!important;margin:0!important;transform:none!important}
+.navigation button{min-width:0!important}
+@media(max-width:620px){.navigation .nav-icon{flex-basis:34px!important;width:34px!important;height:34px!important}.v4-locations .zone-emblem{flex-basis:45px!important;width:45px!important;height:45px!important}}
