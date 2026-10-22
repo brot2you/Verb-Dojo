@@ -81,3 +81,17 @@ section.panel h2{letter-spacing:.3px!important}
 .dojo-map-node .dojo-map-label-plate{pointer-events:none}
 .dojo-map-node:hover,.dojo-map-node:focus{transform:none!important;filter:drop-shadow(0 3px 9px #82452766)}
 .dojo-map-node:hover .dojo-map-crest-glow,.dojo-map-node:focus .dojo-map-crest-glow{transform:scale(1.07);filter:blur(2px)}
+
+/* V9.7 illustrated Memory card backs */
+.mem-card:not(.flipped):not(.matched){
+ background:#112844 url("assets/memory_back.jpg?v=memory-v97") center center / 100% 100% no-repeat!important;
+ border:2px solid #e5b85e!important;
+ color:transparent!important;
+ font-size:0!important;
+ overflow:hidden!important;
+ outline:none!important;
+ box-shadow:0 3px 10px #15243966!important;
+}
+.mem-card:not(.flipped):not(.matched)::after{content:none!important;display:none!important}
+.mem-card.flipped,.mem-card.matched{background-image:none!important}
+.mem-card:focus-visible{outline:3px solid #f9b941!important;outline-offset:3px!important}
