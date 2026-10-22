@@ -95,3 +95,18 @@ section.panel h2{letter-spacing:.3px!important}
 .mem-card:not(.flipped):not(.matched)::after{content:none!important;display:none!important}
 .mem-card.flipped,.mem-card.matched{background-image:none!important}
 .mem-card:focus-visible{outline:3px solid #f9b941!important;outline-offset:3px!important}
+
+/* V10 collectible Legendary Dojo Badges */
+.badge-grid{display:grid!important;grid-template-columns:repeat(auto-fill,minmax(150px,1fr))!important;gap:18px!important}
+.badge{position:relative!important;background:linear-gradient(150deg,#fff8e6,#ead5b0)!important;border:2px solid #c89a4e!important;box-shadow:0 5px 0 #a5793d,0 12px 25px #44301625!important;padding:12px 10px 18px!important;overflow:hidden!important;transition:transform .22s ease,box-shadow .22s ease!important}
+.badge .ic{width:100%!important;min-height:140px!important;display:flex!important;align-items:center!important;justify-content:center!important;font-size:40px!important}
+.badge .dojo-achievement-art{display:block;width:100%!important;max-width:155px!important;aspect-ratio:1!important;object-fit:contain!important;filter:drop-shadow(0 5px 6px #38210b50)}
+.badge .nm{font:800 13px/1.3 Nunito,sans-serif!important;color:#3c3025!important;margin-top:8px!important;min-height:34px!important}
+.badge.earned{opacity:1!important;background:linear-gradient(145deg,#fff4c3,#e6bd6b)!important;border-color:#e8b448!important}
+.badge.earned:hover{transform:translateY(-5px)!important;box-shadow:0 8px 0 #a5793d,0 17px 32px #44301640!important}
+.badge.earned .dojo-achievement-art{animation:dojoBadgeGlow 3.4s ease-in-out infinite}
+.badge.locked{opacity:1!important}
+.badge.locked .dojo-achievement-art{filter:grayscale(1) brightness(.53) contrast(.9)!important;opacity:.6!important}
+.badge.locked:after{content:"🔒";position:absolute;top:11px;right:12px;font-size:19px;filter:grayscale(1)}
+@keyframes dojoBadgeGlow{0%,100%{filter:drop-shadow(0 4px 5px #55330c55)}50%{filter:drop-shadow(0 0 11px #ffc75ca6)}}
+@media(prefers-reduced-motion:reduce){.badge,.badge.earned .dojo-achievement-art{animation:none!important;transition:none!important}}
