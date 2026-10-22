@@ -45,3 +45,16 @@ section.panel h2{letter-spacing:.3px!important}
 
 /* V5 styling: reward bright arcade controls while retaining existing games */
 .btn-primary,.btn.accent{background:linear-gradient(180deg,#ffdd59,#f69c2c)!important;color:#28324b!important;border-color:#aa5f2b!important}
+
+/* V9 interactive training map — all nodes remain clickable and keyboard-accessible */
+.mindmap-wrap.dojo-map{width:min(960px,100%)!important;margin:12px auto 20px!important;padding:14px!important;background:linear-gradient(135deg,#ffebbc,#f4cd8b)!important;border:4px solid #a87539!important;border-radius:24px!important;box-shadow:0 8px 0 #865b32,0 16px 28px #69401f30!important}
+.dojo-map-intro{text-align:center;padding:12px 10px 8px}
+.dojo-map-kicker{display:block;font-size:10px;font-weight:900;letter-spacing:2px;color:#b45e24}
+.dojo-map-intro h2{font-family:Fredoka,Nunito,sans-serif!important;font-size:clamp(21px,3.8vw,36px)!important;color:#183f77!important;margin:4px 0!important;line-height:1.2}
+.dojo-map-intro p{margin:4px 0 7px;font-size:12px;color:#6c543d;font-weight:800}
+.dojo-map-svg{width:100%!important;display:block;height:auto!important}
+.dojo-map-node{cursor:pointer;outline:none;transition:filter .2s}
+.dojo-map-node:hover,.dojo-map-node:focus{filter:drop-shadow(0 4px 9px #8a4f22a0)}
+.dojo-map-node:focus rect:nth-of-type(2){stroke-width:7}
+.dojo-map-hint{text-align:center;color:#8a5a2e;font-size:12px;font-weight:900;margin:7px 0 5px}
+@media(max-width:650px){.mindmap-wrap.dojo-map{padding:5px!important;border-width:2px!important}.dojo-map-intro{padding:11px 6px 3px}.dojo-map-hint{font-size:10px}}
