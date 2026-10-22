@@ -48,3 +48,42 @@
 [hidden]{display:none!important}
 @media(max-width:760px){.daily-grid{grid-template-columns:1fr}}
 @media(max-width:420px){.daily-panel{padding:14px}.daily-head h2{font-size:23px}.daily-step{gap:7px;padding:10px 8px}.daily-step-icon{width:34px;height:40px;font-size:19px}.daily-check span{display:none}}
+
+/* V4: Verb Dojo Z training-world design. Keep original gameplay inside iframe. */
+:root{--navy:#132c57;--navy2:#0e1e3f;--gold:#ffc33b;--cream:#fff9e9;--ink:#24304c;--red:#e63e35}
+body{background:linear-gradient(180deg,#b5e1ff 0,#fff2ca 310px,#f7e1bc 100%);background-attachment:fixed}
+.masthead{background:linear-gradient(105deg,#112248,#1b4381 60%,#132c57);border-bottom:3px solid #fbc149}
+.brand-symbol{background:linear-gradient(150deg,#ffca34,#f26a20 75%);border:2px solid #fff2c0;color:#592513;box-shadow:0 3px 0 #a34723;font-weight:900}
+.logo .accent{color:#ffc43a}
+.stat-pill{border-color:#ffd87664;background:#09224969}
+.stat-pill.xp{color:#ffd344}
+.navigation button.active,.navigation button:hover{background:#ffca3a25;border-color:#ffcf56;color:white}
+.navigation .nav-icon{background:linear-gradient(135deg,#2a60ab,#143463)!important;border-color:#5ba1ee!important;color:#ffe18b!important}
+main{max-width:1250px}
+.hero{min-height:480px;border:5px solid #ffe0a0;box-shadow:0 12px 0 #d96e2d,0 23px 42px #583b2757;border-radius:23px;background-position:center 49%}
+.hero:before{background:linear-gradient(90deg,#0e2756f2 0%,#133b7bc9 42%,#185ab923 100%)}
+.v4-edition{display:inline-block;border:1px solid #ffdb68;background:#e96d24;color:white;font-weight:900;font-size:11px;letter-spacing:1.2px;border-radius:99px;padding:7px 13px;box-shadow:0 4px 0 #923c24}
+.hero h1{font-size:clamp(43px,6.3vw,84px);font-weight:700;letter-spacing:-1.7px;text-transform:uppercase;transform:skew(-4deg);text-shadow:4px 5px 0 #0c203f,0 8px 24px #000a}
+.hero h1 em{color:#ffd234;text-shadow:3px 5px 0 #ba4b1d,0 9px 18px #000a}
+.hero p{font-size:17px;color:#fff9df}
+.primary{background:linear-gradient(#ffdc4c,#ff9629);border:2px solid #fff2af;box-shadow:0 5px 0 #a84c17;color:#402014}
+.secondary{background:#16447ca8;border:2px solid #dceeff}
+.v4-energy{position:absolute;inset:0;pointer-events:none;overflow:hidden}.v4-energy i{position:absolute;width:3px;height:85px;background:linear-gradient(transparent,#ffe595,transparent);transform:rotate(27deg);right:14%;top:5%;animation:v4zap 4s ease-in-out infinite}.v4-energy i:nth-child(2){right:24%;top:49%;height:130px;animation-delay:1.2s}.v4-energy i:nth-child(3){right:7%;top:59%;animation-delay:2.5s}@keyframes v4zap{0%,100%{opacity:0;transform:translateY(20px) rotate(27deg)}40%{opacity:.95;transform:translateY(-28px) rotate(27deg)}}
+.clan-section{margin:36px 0 10px}.clan-intro{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:15px}.clan-intro small{font-size:11px;font-weight:900;color:#bf5121;letter-spacing:2px}.clan-intro h2{font:700 31px Fredoka,sans-serif;margin:3px 0;color:#163d71}.clan-intro p{color:#715a4d;margin:0;font-weight:800;font-size:13px}.clan-explore{background:#183f75;color:white;border:2px solid #7aafe4;border-radius:13px;padding:12px 17px;font-size:11px;font-weight:900;white-space:nowrap}
+.clan-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}
+.clan-card{position:relative;min-height:222px;padding:16px 12px;overflow:hidden;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:space-between;border:3px solid #ffecbe;border-radius:18px;color:white;box-shadow:0 6px 0 #1c243843,0 12px 22px #24345442;isolation:isolate}
+.clan-card:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 45%,#ffffff45,transparent 60%);z-index:-1}
+.clan-stable{background:linear-gradient(145deg,#287949,#0d473c)}.clan-twin{background:linear-gradient(145deg,#3a85e7,#154490)}.clan-evolve{background:linear-gradient(145deg,#ff973c,#b63819)}.clan-wild{background:linear-gradient(145deg,#8452bc,#392566)}
+.clan-number{font-size:10px;font-weight:900;letter-spacing:1.4px;opacity:.9}.clan-sigil{width:75px;height:75px;border-radius:50%;display:grid;place-items:center;border:3px solid #ffffffaf;background:#ffffff25;box-shadow:0 0 0 7px #ffffff16,inset 0 0 22px #fff6;font-size:43px;text-shadow:0 3px 7px #132d6277;transition:transform .3s}
+.clan-card:hover .clan-sigil{transform:scale(1.12) rotate(-10deg)}.clan-card h3{font:700 17px Fredoka,sans-serif;margin:0}.clan-card p{font-size:11px;margin:0;opacity:.9;font-weight:800}.clan-card strong{font-size:12px;background:#0003;padding:5px 9px;border-radius:99px}
+.sectionline h2{color:#16457a}.zones.v4-locations{gap:15px}
+.v4-locations .zone{min-height:167px;display:flex;flex-direction:column;align-items:flex-start;justify-content:end;border:3px solid #ffe1a1;box-shadow:0 6px 0 #895a31,0 15px 26px #503d3940;background:linear-gradient(180deg,#1a5d9a34,#132c58e8 70%),url('assets/dojo-courtyard.jpg') center/cover;color:white}
+.v4-locations .zone:nth-child(2){background-position:65% center}.v4-locations .zone:nth-child(3){background-position:85% center}.v4-locations .zone:nth-child(4){background-position:15% center}
+.v4-locations .zone-emblem{position:absolute;top:13px;left:13px;width:49px;height:49px;border:2px solid #ffe6a2;background:linear-gradient(145deg,#fbc54b,#dd6028);color:#26395a}
+.v4-locations .zone b{font:700 17px Fredoka,sans-serif;text-shadow:0 2px 5px #001b}.v4-locations .zone small{color:#fff1d1;font-size:11px}.v4-locations .zone .arrow{position:absolute;right:14px;top:12px;color:#ffd36d;font-size:20px}
+.sensei-card{background:linear-gradient(105deg,#143968,#1d5ba2,#103365);border:3px solid #ffc24c}
+.daily-panel{border:3px solid #e99f42;box-shadow:0 7px 0 #be7534,0 18px 30px #57432e2c}.daily-head h2{color:#194b83}.daily-open{background:linear-gradient(#ffd651,#ff9e24)}
+.engine{border:3px solid #df9b48;box-shadow:0 7px 0 #ae7438,0 20px 34px #55432926}.engine-heading{background:linear-gradient(90deg,#f8d687,#fff6da)}.engine-heading>span{background:#164e90;color:#ffe17a}
+@media(max-width:920px){.clan-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.clan-card{min-height:190px}.v4-locations .zone{min-height:145px}}
+@media(max-width:620px){.hero{min-height:390px}.hero h1{font-size:42px}.clan-grid{gap:9px}.clan-card{min-height:160px;padding:10px 6px}.clan-sigil{width:51px;height:51px;font-size:29px}.clan-card h3{font-size:12px}.clan-card p,.clan-card strong{font-size:9px}.clan-intro{align-items:flex-start;flex-direction:column}.v4-locations .zone{min-height:135px;padding:11px}.v4-locations .zone b{font-size:12px}.v4-locations .zone small{font-size:9px}.v4-locations .zone-emblem{width:39px;height:39px;font-size:21px}}
+@media(prefers-reduced-motion:reduce){.v4-energy i{animation:none!important}}
