@@ -99,6 +99,7 @@ function decorateIcon(container,name){
  container.appendChild(img);
 }
 function decorateAllIcons(){
+ document.querySelectorAll('#clanSection .v5-clan-portrait').forEach(el=>el.remove());
  document.querySelectorAll('.navigation button[data-go]').forEach(b=>decorateIcon(b.querySelector('.nav-icon'),v7Icons[b.dataset.go]));
  document.querySelectorAll('.zone[data-go]').forEach(b=>decorateIcon(b.querySelector('.zone-emblem'),v7Icons[b.dataset.go]));
  document.querySelectorAll('.clan-card').forEach((c,i)=>decorateIcon(c.querySelector('.clan-sigil'),['clan_stable','clan_twin','clan_evolve','clan_wild'][i]));
