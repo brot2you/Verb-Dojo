@@ -38,3 +38,7 @@ section.panel h2{letter-spacing:.3px!important}
 .speakbtn:hover{transform:scale(1.12);background:#efc773!important}
 @media(max-width:600px){section.panel{padding:13px!important}.quiz-modes{gap:5px!important}.quiz-modes .filterbtn{font-size:.73rem!important;padding:8px!important}.mem-card:not(.flipped):not(.matched):after{font-size:23px!important}.badge-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}.rule-grid{grid-template-columns:1fr!important}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+
+/* V4 cohesive arena treatment without altering game logic */
+:root{--sky:#174a8a!important;--cream:#fff8e8!important;--gold:#ffc947!important;--brown:#ab702e!important;--abc:#e65536!important;--aba:#2e9b56!important;--aaa:#307fdb!important;--abb:#f29c32!important}
+.card{border:2px solid #e5b86c!important;box-shadow:0 6px 0 #b98b4a36!important}.btn{transition:transform .15s,filter .15s!important}.btn:hover{filter:brightness(1.07)!important;transform:translateY(-2px)!important}
