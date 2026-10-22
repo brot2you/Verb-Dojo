@@ -73,3 +73,11 @@ section.panel h2{letter-spacing:.3px!important}
 @keyframes dojoCrestPulse{0%,100%{opacity:.12}50%{opacity:.26}}
 @keyframes dojoTrail{to{stroke-dashoffset:-304}}
 @media(prefers-reduced-motion:reduce){.dojo-map-node,.dojo-map-crest-glow,.dojo-map-crest-back,.dojo-map-crest-img,.dojo-map-route-light{animation:none!important;transition:none!important}}
+
+/* V9.4: bounded crest viewport and solid separated text compartment */
+.dojo-map-node .dojo-map-crest-window{overflow:hidden!important;pointer-events:none}
+.dojo-map-node .dojo-map-crest-img{transform:none!important;transform-origin:center!important;filter:none}
+.dojo-map-node:hover .dojo-map-crest-img,.dojo-map-node:focus .dojo-map-crest-img{transform:none!important;filter:none!important}
+.dojo-map-node .dojo-map-label-plate{pointer-events:none}
+.dojo-map-node:hover,.dojo-map-node:focus{transform:none!important;filter:drop-shadow(0 3px 9px #82452766)}
+.dojo-map-node:hover .dojo-map-crest-glow,.dojo-map-node:focus .dojo-map-crest-glow{transform:scale(1.07);filter:blur(2px)}
