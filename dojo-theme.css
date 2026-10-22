@@ -110,3 +110,10 @@ section.panel h2{letter-spacing:.3px!important}
 .badge.locked:after{content:"🔒";position:absolute;top:11px;right:12px;font-size:19px;filter:grayscale(1)}
 @keyframes dojoBadgeGlow{0%,100%{filter:drop-shadow(0 4px 5px #55330c55)}50%{filter:drop-shadow(0 0 11px #ffc75ca6)}}
 @media(prefers-reduced-motion:reduce){.badge,.badge.earned .dojo-achievement-art{animation:none!important;transition:none!important}}
+
+/* V10.1 — exact badge centering regardless of source PNG margins */
+.badge-grid .badge{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:flex-start!important;min-width:0!important}
+.badge-grid .badge .ic{width:100%!important;height:154px!important;min-height:154px!important;flex:0 0 154px!important;display:grid!important;place-items:center!important;margin:0 auto!important;padding:0!important;overflow:visible!important}
+.badge-grid .badge .dojo-achievement-art{display:block!important;box-sizing:border-box!important;width:148px!important;height:148px!important;max-width:100%!important;max-height:100%!important;object-fit:contain!important;object-position:50% 50%!important;margin:auto!important;position:static!important;transform:none!important}
+.badge-grid .badge .nm{width:100%!important;text-align:center!important;margin:9px auto 0!important}
+@media(max-width:450px){.badge-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important}.badge-grid .badge .ic{height:128px!important;min-height:128px!important;flex-basis:128px!important}.badge-grid .badge .dojo-achievement-art{width:124px!important;height:124px!important}}
