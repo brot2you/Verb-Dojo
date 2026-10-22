@@ -244,3 +244,31 @@ main{max-width:1250px}
 .brand-symbol{overflow:visible}
 .engine-heading>span{overflow:visible}
 @media(max-width:620px){.navigation .nav-icon{width:32px;height:32px}.v4-locations .zone-emblem{width:42px;height:42px}.v4-locations .zone{padding-top:57px}}
+
+/* V7.1 — controlled icon slots, centralized PNG art, responsive spacing */
+.navigation button{min-width:0!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:4px!important}
+.navigation .nav-icon{position:relative!important;display:grid!important;place-items:center!important;flex:0 0 42px!important;width:42px!important;height:42px!important;line-height:1!important;padding:0!important;margin:0 auto!important;transform:none!important}
+.navigation button:hover .nav-icon,.navigation button.active .nav-icon{transform:none!important}
+.v7-icon{inset:0!important;display:block!important;object-fit:contain!important;object-position:center center!important;margin:auto!important;padding:2px!important;max-width:100%!important;max-height:100%!important}
+.zone .zone-emblem{position:relative!important;left:auto!important;top:auto!important;flex:0 0 58px!important;width:58px!important;height:58px!important;display:grid!important;place-items:center!important;margin:0 auto 9px!important;transform:none!important;box-shadow:none!important}
+.v4-locations .zone{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:flex-end!important;text-align:center!important;gap:7px!important;padding:16px 10px!important;min-height:184px!important}
+.v4-locations .zone>span:nth-child(2){display:block!important;width:100%!important;min-width:0!important}
+.v4-locations .zone .arrow{position:absolute!important;top:10px!important;right:12px!important}
+.daily-step-icon{flex:0 0 48px!important;width:48px!important;height:48px!important;display:grid!important;place-items:center!important;padding:0!important}
+.clan-card .clan-sigil{position:relative!important;top:auto!important;left:auto!important;flex:0 0 62px!important;width:62px!important;height:62px!important;margin:8px auto 0!important;opacity:1!important}
+.clan-card .v5-clan-portrait{margin-top:-10px}
+.brand-symbol{flex-shrink:0!important}
+.engine-heading>span{flex-shrink:0!important;position:relative!important}
+.sensei-avatar{width:100px!important;height:100px!important;flex:0 0 100px!important;border-radius:50%!important;overflow:hidden!important;position:relative!important;display:flex!important;align-items:center!important;justify-content:center!important}
+.sensei-avatar .v6-portrait{width:100%!important;height:100%!important;display:block!important}
+.sensei-avatar .v6-portrait>img,.sensei-avatar .v6-fallback{object-fit:contain!important;object-position:center center!important}
+.sensei-avatar .v6-fallback svg{width:100%!important;height:100%!important}
+#hero #v5HeroCast{justify-content:center!important}
+#hero #v5HeroCast .v5-cast-main{flex:0 1 230px!important;margin:0!important}
+@media(max-width:620px){
+.navigation .nav-icon{flex-basis:31px!important;width:31px!important;height:31px!important}
+.v4-locations .zone{min-height:148px!important;padding:12px 7px!important}
+.zone .zone-emblem{flex-basis:43px!important;width:43px!important;height:43px!important;margin-bottom:5px!important}
+.clan-card .clan-sigil{flex-basis:46px!important;width:46px!important;height:46px!important}
+.sensei-avatar{width:72px!important;height:72px!important;flex-basis:72px!important}
+}
