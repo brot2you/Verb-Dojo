@@ -297,3 +297,79 @@ main{max-width:1250px}
 .daily-finish .v7-icon{inset:0 auto auto 0!important;width:28px!important;height:28px!important}
 .daily-finish.v7-icon-ready{font-size:inherit!important}
 @media(max-width:620px){.clan-card .clan-sigil{width:51px!important;height:51px!important;flex-basis:51px!important}.daily-head>.v7-icon{display:none!important}}
+
+/* V8.1: clan crest and character are independent, never overlaid */
+.clan-grid .clan-card{
+ display:grid!important;
+ grid-template-columns:minmax(0,1fr)!important;
+ grid-template-rows:22px 78px 135px auto auto auto!important;
+ justify-items:center!important;
+ align-content:start!important;
+ align-items:center!important;
+ gap:5px!important;
+ min-height:345px!important;
+ padding:12px 10px 16px!important;
+ overflow:hidden!important;
+}
+.clan-grid .clan-card .clan-number{grid-row:1!important;align-self:center!important;margin:0!important}
+.clan-grid .clan-card .clan-sigil{
+ grid-row:2!important;
+ position:relative!important;
+ inset:auto!important;
+ top:auto!important;
+ left:auto!important;
+ right:auto!important;
+ bottom:auto!important;
+ display:block!important;
+ width:72px!important;
+ height:72px!important;
+ flex:none!important;
+ margin:0!important;
+ padding:0!important;
+ opacity:1!important;
+ transform:none!important;
+ border:0!important;
+ background:none!important;
+ box-shadow:none!important;
+ z-index:2!important;
+ overflow:hidden!important;
+}
+.clan-grid .clan-card .clan-sigil .v7-icon{
+ position:absolute!important;inset:0!important;
+ width:100%!important;height:100%!important;
+ display:block!important;object-fit:contain!important;
+ object-position:center!important;padding:0!important;
+ margin:0!important;transform:none!important;
+}
+.clan-grid .clan-card .v5-clan-portrait{
+ grid-row:3!important;
+ display:flex!important;
+ align-items:flex-end!important;
+ justify-content:center!important;
+ position:relative!important;
+ width:100%!important;
+ height:135px!important;
+ min-height:0!important;
+ margin:0!important;
+ overflow:hidden!important;
+ z-index:1!important;
+}
+.clan-grid .clan-card .v5-clan-portrait .v6-portrait{
+ position:relative!important;
+ display:block!important;
+ width:128px!important;
+ height:135px!important;
+ margin:0 auto!important;
+}
+.clan-grid .clan-card .v5-clan-portrait .v5-character{
+ height:100%!important;width:100%!important;
+}
+.clan-grid .clan-card h3{grid-row:4!important;margin:2px 0 0!important;text-align:center!important}
+.clan-grid .clan-card p{grid-row:5!important;margin:0!important;text-align:center!important}
+.clan-grid .clan-card>strong{grid-row:6!important;margin:4px 0 0!important;text-align:center!important}
+@media(max-width:620px){
+ .clan-grid .clan-card{grid-template-rows:18px 53px 93px auto auto auto!important;min-height:265px!important;gap:4px!important;padding:9px 5px 12px!important}
+ .clan-grid .clan-card .clan-sigil{width:51px!important;height:51px!important}
+ .clan-grid .clan-card .v5-clan-portrait{height:93px!important}
+ .clan-grid .clan-card .v5-clan-portrait .v6-portrait{height:93px!important;width:88px!important}
+}
