@@ -36,7 +36,7 @@ const v5Roster={
  evolve:{skin:'#e8ad84',hair:'#8d352f',suit:'#d35129',trim:'#ffd367',eyes:'#4e242a',band:'#eeb33c'},
  wild:{skin:'#dab3a3',hair:'#d9cced',suit:'#58377f',trim:'#ceb8ff',eyes:'#342c58',band:'#9567d2'}
 };
-function v5Portrait(name){
+function v5FallbackPortrait(name){
  const p=v5Roster[name];if(!p)return '';
  const whiteHair=name==='sensei'||name==='wild';
  const eyes=name==='sensei'?'M51 56l11 3m18 0 11-3':'M49 57l12 1m19 0 11-1';
@@ -54,12 +54,36 @@ function v5Portrait(name){
  '<path d="M10 168q8-39 23-44M130 168q-8-39-23-44" stroke="'+p.trim+'" stroke-width="7" fill="none"/>'+
  '<path d="M9 168q0-60 44-66l35 0q43 6 44 66" fill="url(#shine-'+name+')" stroke="none"/></svg>';
 }
+
+/* V6: use original illustrated PNG assets when deployed, otherwise keep V5 SVGs. */
+const v6Assets={
+ hero:'01_heros.png',sensei:'05_sensei_kai.png',stable:'06_clan_vent.png',
+ twin:'02_clan_eau.png',evolve:'03_clan_feu.png',wild:'04_clan_foudre.png',
+ rival:'07_rival.png',mascot:'bonus_mascotte.png'
+};
+function v5Portrait(name){
+ const file=v6Assets[name];
+ if(!file)return v5FallbackPortrait(name);
+ return '<span class="v6-portrait" role="img" aria-label="Verb Dojo character '+name+'">'+
+ '<img alt="" loading="lazy" decoding="async" src="assets/characters/'+file+'">'+
+ '<span class="v6-fallback" aria-hidden="true">'+v5FallbackPortrait(name)+'</span></span>';
+}
+function v6EnableImages(){
+ document.querySelectorAll('.v6-portrait img').forEach(img=>{
+  if(img.dataset.v6Ready)return;
+  img.dataset.v6Ready='1';
+  const loaded=()=>{img.parentElement.classList.add('v6-loaded')};
+  if(img.complete&&img.naturalWidth)loaded();
+  else img.addEventListener('load',loaded,{once:true});
+ });
+}
+
 function v5Mount(){
  const cast=document.getElementById('v5HeroCast');
  if(cast){cast.innerHTML='<div class="v5-cast v5-cast-main">'+v5Portrait('hero')+'<span class="v5-cast-label">YOUR HERO</span></div><div class="v5-cast v5-cast-mentor">'+v5Portrait('sensei')+'<span class="v5-cast-label">MASTER KAI</span></div>';}
  document.querySelectorAll('[data-character]').forEach(el=>{const name=el.dataset.character;el.innerHTML=v5Portrait(name)});
  const arena=document.getElementById('v5Battle');
- if(arena)arena.innerHTML='<div class="v5-arena-title">⚡ BATTLE ARENA <small>TRAIN · LEARN · MASTER</small></div><div class="v5-fighter v5-player">'+v5Portrait('hero')+'<div class="v5-fighter-name">YOUR HERO <span>LEARNER</span></div></div><div class="v5-versus">VS</div><div class="v5-fighter v5-opponent">'+v5Portrait('evolve')+'<div class="v5-fighter-name">RIVAL RYU <span>VERB CHALLENGER</span></div></div><p class="v5-arena-note">Complete the original challenges below to build your mastery.</p>';
+ if(arena)arena.innerHTML='<div class="v5-arena-title">⚡ BATTLE ARENA <small>TRAIN · LEARN · MASTER</small></div><div class="v5-fighter v5-player">'+v5Portrait('hero')+'<div class="v5-fighter-name">YOUR HERO <span>LEARNER</span></div></div><div class="v5-versus">VS</div><div class="v5-fighter v5-opponent">'+v5Portrait('evolve')+'<div class="v5-fighter-name">RIVAL RYU <span>VERB CHALLENGER</span></div></div><p class="v5-arena-note">Complete the original challenges below to build your mastery.</p>';v6EnableImages();
 }
 
 function addSensei(){if(document.getElementById('senseiCard'))return;const el=document.createElement('aside');el.id='senseiCard';el.className='sensei-card';el.setAttribute('aria-label','Conseil du Sensei');el.innerHTML=`<div class="sensei-avatar">${senseiAvatar}</div><div class="sensei-copy"><small>YOUR SENSEI SAYS</small><strong>Every master starts as a learner.</strong><p>Study the four verb clans, then test your skills in the Battle Arena. Each answer brings you closer to mastery.</p></div><button class="sensei-cta" data-go="quiz">TRAIN NOW ↗</button>`;hub.insertAdjacentElement('afterend',el);el.querySelector('button').addEventListener('click',()=>go('quiz'));}
