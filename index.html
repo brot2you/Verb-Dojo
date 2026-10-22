@@ -23,6 +23,24 @@
 #clanSection .clan-grid .clan-card p{order:3!important;margin:0!important}
 #clanSection .clan-grid .clan-card>strong{order:4!important;margin:0!important}
 @media(max-width:700px){#clanSection .clan-grid .clan-card{min-height:245px!important;padding:10px 5px 13px!important;gap:5px!important}#clanSection .clan-grid .clan-card .clan-sigil{width:110px!important;height:110px!important;min-width:110px!important;min-height:110px!important;flex-basis:110px!important}}
+</style><style id="hero-character-v84">
+/* Larger hero, moved towards center without crossing the text column */
+#hero.hero{grid-template-columns:minmax(0,56fr) minmax(0,44fr)!important}
+#hero #v5HeroCast{justify-content:flex-start!important;padding:10px 12px 0 0!important;overflow:visible!important}
+#hero #v5HeroCast .v5-cast-main{flex:0 0 auto!important;width:100%!important;max-width:320px!important;margin-left:-12px!important}
+#hero #v5HeroCast .v6-portrait{height:370px!important;width:100%!important;max-width:315px!important}
+#hero #v5HeroCast .v5-cast-mentor{display:none!important}
+@media(max-width:900px){
+#hero.hero{grid-template-columns:minmax(0,60fr) minmax(0,40fr)!important}
+#hero #v5HeroCast .v5-cast-main{max-width:240px!important;margin-left:-5px!important}
+#hero #v5HeroCast .v6-portrait{height:290px!important;max-width:240px!important}
+}
+@media(max-width:620px){
+#hero.hero{grid-template-columns:minmax(0,1fr)!important}
+#hero #v5HeroCast{justify-content:center!important;height:230px!important;padding:0!important}
+#hero #v5HeroCast .v5-cast-main{width:190px!important;max-width:190px!important;margin:0!important;flex:0 0 190px!important}
+#hero #v5HeroCast .v6-portrait{height:225px!important;max-width:190px!important}
+}
 </style></head>
 <body>
 <div class="petals" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
