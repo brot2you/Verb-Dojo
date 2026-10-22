@@ -58,3 +58,18 @@ section.panel h2{letter-spacing:.3px!important}
 .dojo-map-node:focus rect:nth-of-type(2){stroke-width:7}
 .dojo-map-hint{text-align:center;color:#8a5a2e;font-size:12px;font-weight:900;margin:7px 0 5px}
 @media(max-width:650px){.mindmap-wrap.dojo-map{padding:5px!important;border-width:2px!important}.dojo-map-intro{padding:11px 6px 3px}.dojo-map-hint{font-size:10px}}
+
+/* V9.2: premium illustrated badges and luminous trails */
+.dojo-map-node{transform-box:fill-box;transform-origin:center;transition:transform .2s ease,filter .2s ease}
+.dojo-map-node:hover,.dojo-map-node:focus{transform:translateY(-3px) scale(1.025);filter:drop-shadow(0 5px 10px #82452773)}
+.dojo-map-node rect{transition:stroke-width .2s ease}
+.dojo-map-node:hover rect:nth-of-type(2),.dojo-map-node:focus rect:nth-of-type(2){stroke-width:7}
+.dojo-map-crest-glow,.dojo-map-crest-back,.dojo-map-crest-img{transform-box:fill-box;transform-origin:center;transition:transform .25s ease,opacity .25s ease,filter .25s ease}
+.dojo-map-crest-glow{animation:dojoCrestPulse 3s ease-in-out infinite}
+.dojo-map-node:hover .dojo-map-crest-glow,.dojo-map-node:focus .dojo-map-crest-glow{opacity:.43;transform:scale(1.2);filter:blur(5px)}
+.dojo-map-node:hover .dojo-map-crest-img,.dojo-map-node:focus .dojo-map-crest-img{transform:scale(1.1);filter:drop-shadow(0 0 8px #fff1a6)}
+.dojo-map-crest-fallback{display:none}
+.dojo-map-route-light{animation:dojoTrail 16s linear infinite;filter:drop-shadow(0 0 3px #ffe08caa)}
+@keyframes dojoCrestPulse{0%,100%{opacity:.12}50%{opacity:.26}}
+@keyframes dojoTrail{to{stroke-dashoffset:-304}}
+@media(prefers-reduced-motion:reduce){.dojo-map-node,.dojo-map-crest-glow,.dojo-map-crest-back,.dojo-map-crest-img,.dojo-map-route-light{animation:none!important;transition:none!important}}
