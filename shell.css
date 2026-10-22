@@ -402,3 +402,10 @@ main{max-width:1250px}
  .clan-grid .clan-card{min-height:223px!important;padding:12px 7px!important;gap:7px!important}
  .clan-grid .clan-card .clan-sigil{width:88px!important;height:88px!important;flex-basis:88px!important}
 }
+
+/* V9.5 clickable clan cards and clean self-contained Sensei illustration */
+button.clan-card{font:inherit;color:inherit;cursor:pointer;text-align:center;border-style:solid}
+button.clan-card:hover{filter:brightness(1.045);box-shadow:0 11px 24px #43280d33}
+button.clan-card:focus-visible{outline:4px solid #fbc759;outline-offset:4px}
+.sensei-avatar>.v5-character{display:block!important;width:100%!important;height:100%!important;max-height:100%!important;overflow:hidden!important}
+@media(prefers-reduced-motion:reduce){button.clan-card{transition:none!important}}
