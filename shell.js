@@ -93,7 +93,7 @@ function decorateIcon(container,name){
  if(!container || container.querySelector('.v7-icon'))return;
  const img=document.createElement('img');
  img.className='v7-icon';img.alt='';img.decoding='async';img.loading='lazy';
- img.src='assets/icons/'+name+'.png';
+ img.src='assets/icons/'+name+'.png?v=icons6b';
  img.addEventListener('load',()=>container.classList.add('v7-icon-ready'),{once:true});
  img.addEventListener('error',()=>img.remove(),{once:true});
  container.appendChild(img);
@@ -101,9 +101,9 @@ function decorateIcon(container,name){
 function decorateAllIcons(){
  document.querySelectorAll('.navigation button[data-go]').forEach(b=>decorateIcon(b.querySelector('.nav-icon'),v7Icons[b.dataset.go]));
  document.querySelectorAll('.zone[data-go]').forEach(b=>decorateIcon(b.querySelector('.zone-emblem'),v7Icons[b.dataset.go]));
- document.querySelectorAll('.clan-card').forEach((c,i)=>decorateIcon(c.querySelector('.clan-sigil'),['clan_stable','clan_twin','clan_evolve','clan_wild'][i]));
+ /* Clan icons retain their separate original emblems. */
  document.querySelectorAll('.daily-step').forEach((c,i)=>decorateIcon(c.querySelector('.daily-step-icon'),['wisdom','scrolls','memory','arena'][i]));
- decorateIcon(document.querySelector('.brand-symbol'),'dojo');
+ /* Keep existing wordmark symbol unchanged. */
  decorateIcon(document.querySelector('.engine-heading>span'),v7Icons[view]||'dojo');
  document.querySelectorAll('.v7-icon-ready').forEach(e=>{});
 }
