@@ -81,7 +81,7 @@ function v6EnableImages(){
 function v5Mount(){
  const cast=document.getElementById('v5HeroCast');
  if(cast){cast.innerHTML='<div class="v5-cast v5-cast-main">'+v5Portrait('hero')+'<span class="v5-cast-label">YOUR HERO</span></div>';}
- document.querySelectorAll('[data-character]').forEach(el=>{const name=el.dataset.character;el.innerHTML=v5Portrait(name)});
+
  const arena=document.getElementById('v5Battle');
  if(arena)arena.innerHTML='<div class="v5-arena-title">⚡ BATTLE ARENA <small>TRAIN · LEARN · MASTER</small></div><div class="v5-fighter v5-player">'+v5Portrait('hero')+'<div class="v5-fighter-name">YOUR HERO <span>LEARNER</span></div></div><div class="v5-versus">VS</div><div class="v5-fighter v5-opponent">'+v5Portrait('evolve')+'<div class="v5-fighter-name">RIVAL RYU <span>VERB CHALLENGER</span></div></div><p class="v5-arena-note">Complete the original challenges below to build your mastery.</p>';v6EnableImages();
 }
