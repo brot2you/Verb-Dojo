@@ -87,3 +87,22 @@ main{max-width:1250px}
 @media(max-width:920px){.clan-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.clan-card{min-height:190px}.v4-locations .zone{min-height:145px}}
 @media(max-width:620px){.hero{min-height:390px}.hero h1{font-size:42px}.clan-grid{gap:9px}.clan-card{min-height:160px;padding:10px 6px}.clan-sigil{width:51px;height:51px;font-size:29px}.clan-card h3{font-size:12px}.clan-card p,.clan-card strong{font-size:9px}.clan-intro{align-items:flex-start;flex-direction:column}.v4-locations .zone{min-height:135px;padding:11px}.v4-locations .zone b{font-size:12px}.v4-locations .zone small{font-size:9px}.v4-locations .zone-emblem{width:39px;height:39px;font-size:21px}}
 @media(prefers-reduced-motion:reduce){.v4-energy i{animation:none!important}}
+
+/* V5: original anime heroes and illustrated clan cards */
+.hero{isolation:isolate}.hero-overlay{max-width:58%;z-index:4}.hero-overlay h1{font-size:clamp(38px,5.6vw,74px)}.hero-overlay p{max-width:380px}
+.v5-hero-cast{position:absolute;right:0;bottom:0;top:15px;width:45%;z-index:2;display:flex;align-items:flex-end;justify-content:center;gap:0;pointer-events:none}
+.v5-cast{display:flex;flex-direction:column;align-items:center;position:relative;filter:drop-shadow(5px 10px 1px #142744a0)}
+.v5-cast .v5-character{width:clamp(155px,18vw,255px);height:auto}.v5-cast-main{z-index:2;margin-right:-35px}.v5-cast-mentor{z-index:1;transform:scale(.86) translateY(9px)}
+.v5-cast-label{position:absolute;bottom:12px;white-space:nowrap;border:2px solid #ffe38d;background:#0b2b63d9;color:#ffe38d;padding:4px 10px;font-size:10px;letter-spacing:1px;font-weight:900;border-radius:10px}
+.v5-character{display:block;overflow:visible;filter:drop-shadow(0 4px 3px #0005)}
+.clan-card{min-height:288px}.clan-card .clan-sigil{position:absolute;width:120px;height:120px;top:36px;opacity:.28}
+.v5-clan-portrait{display:block;height:125px;width:100%;display:flex;justify-content:center;align-items:flex-end;z-index:1}
+.v5-clan-portrait .v5-character{height:132px;width:auto}.clan-card h3,.clan-card p,.clan-card strong,.clan-number{position:relative;z-index:2}
+.v5-battle{position:relative;min-height:240px;display:flex;justify-content:center;align-items:end;overflow:hidden;gap:30px;padding:30px 22px 22px;background:radial-gradient(circle at 50% 75%,#fcd786 0%,#e88d41 21%,#224f94 55%,#0c2850 100%);border-bottom:5px solid #ffcb53}
+.v5-battle:before,.v5-battle:after{content:"";position:absolute;inset:-50%;background:repeating-conic-gradient(from 0deg at 50% 80%,transparent 0deg 16deg,#ffffff10 17deg 18deg);pointer-events:none}
+.v5-arena-title{position:absolute;top:10px;left:15px;font:700 21px Fredoka,sans-serif;color:#ffde7b;text-shadow:2px 2px #153262;z-index:2}.v5-arena-title small{display:block;font:900 9px Nunito,sans-serif;letter-spacing:2px;color:white}
+.v5-fighter{z-index:2;width:125px;display:flex;flex-direction:column;align-items:center}.v5-fighter .v5-character{height:165px;width:auto}.v5-opponent .v5-character{transform:scaleX(-1)}.v5-fighter-name{background:#132b53;color:#fff;border:2px solid #ffd065;border-radius:8px;text-align:center;padding:4px 7px;font-size:11px;font-weight:900;white-space:nowrap}.v5-fighter-name span{display:block;color:#f5c66c;font-size:8px}
+.v5-versus{z-index:2;align-self:center;color:#ffe55a;font:900 57px Fredoka,sans-serif;text-shadow:4px 5px 0 #e85630,-3px -2px #fff;transform:rotate(-8deg)}
+.v5-arena-note{position:absolute;right:12px;bottom:7px;font-size:10px;color:white;font-weight:800;z-index:2}
+@media(max-width:800px){.v5-hero-cast{width:39%}.hero-overlay{max-width:66%}.v5-cast-mentor{display:none}.clan-card{min-height:240px}}
+@media(max-width:620px){.hero-overlay{max-width:88%}.v5-hero-cast{right:-15px;width:35%;opacity:.47}.v5-cast .v5-character{width:140px}.hero-overlay h1{font-size:39px}.clan-card{min-height:215px}.v5-clan-portrait{height:86px}.v5-clan-portrait .v5-character{height:97px}.v5-battle{gap:9px;min-height:205px}.v5-fighter{width:85px}.v5-fighter .v5-character{height:125px}.v5-versus{font-size:39px}.v5-arena-note{display:none}}
