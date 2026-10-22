@@ -340,24 +340,71 @@ function Home({onGoList, setTab, progress, level}){
           </div>
         </div>
 
-        <div className="mindmap-wrap card">
-          <svg viewBox="0 0 600 500">
-            {nodes.map(n=>(
-              <line key={"l"+n.key} x1={cx} y1={cy} x2={n.x} y2={n.y} stroke={PATTERNS[n.key].color} strokeWidth="3" opacity="0.6"/>
+        <div className="mindmap-wrap card dojo-map" aria-label="Interactive map of four irregular verb families">
+          <div className="dojo-map-intro">
+            <span className="dojo-map-kicker">✦ THE FOUR VERB CLANS ✦</span>
+            <h2>THE CLAN TRAINING MAP</h2>
+            <p>Choose a clan to explore its irregular verbs.</p>
+          </div>
+          <svg className="dojo-map-svg" viewBox="0 0 760 520" role="group" aria-label="Four clickable verb clans around the Verb Dojo">
+            <defs>
+              <radialGradient id="mapPaper" cx="50%" cy="44%" r="76%">
+                <stop offset="0%" stopColor="#fff7d8"/><stop offset="100%" stopColor="#f0d6a7"/>
+              </radialGradient>
+              <linearGradient id="coreDisc" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#316bb2"/><stop offset="100%" stopColor="#10234d"/>
+              </linearGradient>
+              <filter id="mapGlow" x="-40%" y="-40%" width="180%" height="180%">
+                <feGaussianBlur stdDeviation="7" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+              <pattern id="mapDots" width="24" height="24" patternUnits="userSpaceOnUse"><circle cx="12" cy="12" r="1" fill="#b98f5b" opacity=".22"/></pattern>
+            </defs>
+            <rect x="8" y="8" width="744" height="504" rx="28" fill="url(#mapPaper)" stroke="#a76e3b" strokeWidth="5"/>
+            <rect x="17" y="17" width="726" height="486" rx="22" fill="url(#mapDots)" stroke="#fff4d6" strokeWidth="2"/>
+            <g opacity=".16" fill="none" stroke="#af793f" strokeWidth="3">
+              <circle cx="380" cy="262" r="169" strokeDasharray="9 15"/>
+              <circle cx="380" cy="262" r="202" strokeDasharray="2 18"/>
+              <path d="M380 25v42 M380 454v42 M25 262h55 M680 262h55"/>
+            </g>
+            {[
+              {key:"AAA",x:165,y:138,color:"#2c9161",back:"#d7f8db",title:"STABLE",ex:"cut · cut · cut",sigil:"◆"},
+              {key:"ABA",x:595,y:138,color:"#3186ce",back:"#d6edff",title:"TWIN",ex:"come · came · come",sigil:"◈"},
+              {key:"ABB",x:165,y:390,color:"#dc742f",back:"#ffe6c1",title:"MATCH",ex:"make · made · made",sigil:"✦"},
+              {key:"ABC",x:595,y:390,color:"#8051b6",back:"#eee0ff",title:"EVOLVE",ex:"write · wrote · written",sigil:"ϟ"}
+            ].map(n=>(
+              <g key={"route-"+n.key}>
+                <path d={`M380 262 Q${380+(n.x-380)*.5} ${262+(n.y-262)*.12} ${n.x} ${n.y}`} fill="none" stroke="#765a41" strokeWidth="13" strokeLinecap="round" opacity=".19"/>
+                <path d={`M380 262 Q${380+(n.x-380)*.5} ${262+(n.y-262)*.12} ${n.x} ${n.y}`} fill="none" stroke={n.color} strokeWidth="6" strokeLinecap="round" strokeDasharray="10 9" opacity=".72"/>
+              </g>
             ))}
-            <circle cx={cx} cy={cy} r="56" fill="var(--ink)"/>
-            <text x={cx} y={cy-6} textAnchor="middle" fill="#fff" fontFamily="Luckiest Guy" fontSize="14">VERBES</text>
-            <text x={cx} y={cy+16} textAnchor="middle" fill="#fff" fontFamily="Luckiest Guy" fontSize="14">IRRÉGULIERS</text>
-            {nodes.map(n=>(
-              <g key={n.key} className="leaf" onClick={()=>onGoList(n.key)}>
-                <circle className="node" cx={n.x} cy={n.y} r="48" fill={PATTERNS[n.key].bg} stroke={PATTERNS[n.key].color} strokeWidth="3"/>
-                <text x={n.x} y={n.y-6} textAnchor="middle" fontFamily="Luckiest Guy" fontSize="19" fill={PATTERNS[n.key].color}>{n.key}</text>
-                <text x={n.x} y={n.y+16} textAnchor="middle" fontSize="11" fontWeight="800" fill="var(--ink-soft)">{n.count} verbes</text>
-                <rect x={n.x-58} y={n.y+62} width="116" height="22" rx="11" fill={PATTERNS[n.key].bg} stroke={PATTERNS[n.key].color} strokeWidth="1.5"/>
-                <text x={n.x} y={n.y+77} textAnchor="middle" fontSize="10.5" fontWeight="800" fill={PATTERNS[n.key].color}>{PATTERNS[n.key].example.replace(/ – /g,"-")}</text>
+            <g className="dojo-map-center">
+              <circle cx="380" cy="262" r="104" fill="#f7c85e" opacity=".25" filter="url(#mapGlow)"/>
+              <circle cx="380" cy="262" r="88" fill="#16366c" stroke="#f2b94c" strokeWidth="11"/>
+              <circle cx="380" cy="262" r="75" fill="url(#coreDisc)" stroke="#fff0b7" strokeWidth="2"/>
+              <text x="380" y="246" textAnchor="middle" fontSize="28" fontWeight="900" fill="#ffe28b">VERB</text>
+              <text x="380" y="278" textAnchor="middle" fontSize="28" fontWeight="900" fill="#fff">DOJO</text>
+              <text x="380" y="303" textAnchor="middle" fontSize="11" fontWeight="900" letterSpacing="2" fill="#e5c78a">4 CLANS</text>
+            </g>
+            {[
+              {key:"AAA",x:165,y:138,color:"#2c9161",back:"#d7f8db",title:"STABLE",ex:"cut · cut · cut",sigil:"◆"},
+              {key:"ABA",x:595,y:138,color:"#3186ce",back:"#d6edff",title:"TWIN",ex:"come · came · come",sigil:"◈"},
+              {key:"ABB",x:165,y:390,color:"#dc742f",back:"#ffe6c1",title:"MATCH",ex:"make · made · made",sigil:"✦"},
+              {key:"ABC",x:595,y:390,color:"#8051b6",back:"#eee0ff",title:"EVOLVE",ex:"write · wrote · written",sigil:"ϟ"}
+            ].map(n=>(
+              <g key={n.key} className="dojo-map-node" role="button" tabIndex="0" aria-label={n.title+" clan, "+n.key+", "+VERBS.filter(v=>v.pattern===n.key).length+" verbs. Open verb list."} onClick={()=>onGoList(n.key)} onKeyDown={e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();onGoList(n.key)}}}>
+                <rect x={n.x-91} y={n.y-83} width="182" height="172" rx="24" fill="#48331e" opacity=".19" transform="translate(0 7)"/>
+                <rect x={n.x-91} y={n.y-83} width="182" height="172" rx="24" fill={n.back} stroke={n.color} strokeWidth="5"/>
+                <rect x={n.x-83} y={n.y-75} width="166" height="156" rx="18" fill="none" stroke="#fff" strokeWidth="2" opacity=".76"/>
+                <circle cx={n.x} cy={n.y-39} r="29" fill={n.color} stroke="#fff4cf" strokeWidth="4"/>
+                <text x={n.x} y={n.y-30} textAnchor="middle" fontSize="30" fontWeight="900" fill="#fff">{n.sigil}</text>
+                <text x={n.x} y={n.y+1} textAnchor="middle" fill={n.color} fontSize="20" fontWeight="900">{n.title}</text>
+                <text x={n.x} y={n.y+24} textAnchor="middle" fill="#29334a" fontSize="17" fontWeight="900">{n.key} · {VERBS.filter(v=>v.pattern===n.key).length} verbs</text>
+                <text x={n.x} y={n.y+49} textAnchor="middle" fill="#4d4c4b" fontSize="12.5" fontWeight="800">{n.ex}</text>
+                <text x={n.x} y={n.y+71} textAnchor="middle" fill={n.color} fontSize="10" fontWeight="900">TAP TO EXPLORE ↗</text>
               </g>
             ))}
           </svg>
+          <p className="dojo-map-hint">✦ Select a clan to see its verbs and practise the patterns.</p>
         </div>
 
         <div className="stat-grid">
