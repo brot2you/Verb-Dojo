@@ -101,6 +101,7 @@
   .grid-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(72px,1fr));gap:8px;margin-top:6px;}
   @media(min-width:600px){.grid-cards{grid-template-columns:repeat(auto-fill,minmax(96px,1fr));}}
   .mem-card{aspect-ratio:3/4;border-radius:12px;border:3px solid var(--ink);display:flex;align-items:center;justify-content:center;text-align:center;padding:6px;font-weight:900;font-size:.78rem;line-height:1.2;transition:transform .2s;background:repeating-linear-gradient(45deg,var(--brown),var(--brown) 10px,#D89456 10px,#D89456 20px);color:transparent;box-shadow:2px 2px 0 rgba(27,27,27,.25);}
+  .mem-card:not(.flipped):not(.matched){background:#112844 url("assets/memory_back.jpg?v=memory-v97") center/100% 100% no-repeat;color:transparent;font-size:0}
   .mem-card.flipped{color:var(--ink);background:#fff;}
   .mem-card.matched{opacity:.3;}
   .mem-card:active{transform:scale(.96);}
