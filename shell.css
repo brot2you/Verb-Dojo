@@ -409,3 +409,8 @@ button.clan-card:hover{filter:brightness(1.045);box-shadow:0 11px 24px #43280d33
 button.clan-card:focus-visible{outline:4px solid #fbc759;outline-offset:4px}
 .sensei-avatar>.v5-character{display:block!important;width:100%!important;height:100%!important;max-height:100%!important;overflow:hidden!important}
 @media(prefers-reduced-motion:reduce){button.clan-card{transition:none!important}}
+
+/* V9.6 — sensei medallion replaces SVG */
+.sensei-avatar{background:#123c79!important;overflow:hidden!important;border-color:#e8b85d!important}
+.sensei-avatar .sensei-medallion{display:block;width:100%;height:100%;object-fit:cover;object-position:center;border-radius:50%}
+.sensei-avatar.sensei-image-missing:after{content:'✦';color:#ffe0a0;font-size:38px;position:absolute;inset:0;display:grid;place-items:center}
