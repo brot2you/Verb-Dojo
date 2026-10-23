@@ -234,9 +234,10 @@ const VERBS = [
   ["undergo","underwent","undergone","subir / traverser","ABC"],
 ].map((v,i)=>({id:i, v1:v[0], v2:v[1], v3:v[2], fr:v[3], pattern:v[4]}));
 
+const LOT3_VERBS=new Set("catch come seek tell hear meet cut keep hit leave".split(" "));
 const LOT2_VERBS=new Set("drive draw drink fight eat give fall fly forget find".split(" "));
-const ILLUSTRATED_VERBS=new Set("be become begin build buy choose go run write read drive draw drink fight eat give fall fly forget find".split(" "));
-const verbImagePath=verb=>"assets/verbs/"+verb+(LOT2_VERBS.has(verb)?"-lot2":"")+".webp?v=illustrations-lot2-v20";
+const ILLUSTRATED_VERBS=new Set("be become begin build buy choose go run write read drive draw drink fight eat give fall fly forget find catch come seek tell hear meet cut keep hit leave".split(" "));
+const verbImagePath=verb=>"assets/verbs/"+verb+(LOT3_VERBS.has(verb)?"-lot3":LOT2_VERBS.has(verb)?"-lot2":"")+".webp?v=illustrations-lot3-v21";
 
 const PATTERNS = {
   AAA:{label:"AAA — identique", color:"var(--aaa)", bg:"var(--aaa-bg)", desc:"Les 3 formes sont identiques.", example:"cut – cut – cut"},
