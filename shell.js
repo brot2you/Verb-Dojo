@@ -121,24 +121,24 @@ function addSensei(){if(document.getElementById('senseiCard'))return;const el=do
 
 function play(){if(!soundOn)return;try{audio=audio||new(window.AudioContext||window.webkitAudioContext)();const o=audio.createOscillator(),g=audio.createGain();o.type='sine';o.frequency.setValueAtTime(620,audio.currentTime);o.frequency.exponentialRampToValueAtTime(880,audio.currentTime+.08);g.gain.setValueAtTime(.033,audio.currentTime);g.gain.exponentialRampToValueAtTime(.001,audio.currentTime+.13);o.connect(g);g.connect(audio.destination);o.start();o.stop(audio.currentTime+.14)}catch(e){}}
 function setActive(key,scroll=true){view=key;document.querySelectorAll('[data-go]').forEach(el=>{if(el.closest('.navigation'))el.classList.toggle('active',el.dataset.go===key)});let t=titles[key];document.getElementById('sectionIcon').textContent=t[0];document.getElementById('sectionIcon').classList.remove('v7-icon-ready');document.getElementById('sectionIcon').querySelector('.v7-icon')?.remove();decorateIcon(document.getElementById('sectionIcon'),v7Icons[key]||'dojo');document.getElementById('sectionSubtitle').textContent=t[1];document.getElementById('sectionTitle').textContent=t[2];hero.hidden=key!=='home';hub.hidden=key!=='home';const clans=document.getElementById('clanSection');if(clans)clans.hidden=key!=='home';const sensei=document.getElementById('senseiCard');if(sensei)sensei.hidden=key!=='home';const daily=document.getElementById('dailyPanel');if(daily)daily.hidden=key!=='home';const arena=document.getElementById('v5Battle');if(arena)arena.hidden=key!=='quiz';document.getElementById('backHome').hidden=key==='home';if(scroll&&key!=='home')heading.scrollIntoView({behavior:'smooth',block:'start'});setTimeout(resize,80)}
+function sendNav(key,pattern=null){
+ const allowed=['home','regles','liste','memory','quiz','progres'];
+ if(!allowed.includes(key))return;
+ try{frame.contentWindow?.postMessage({type:'verb-dojo-navigate',tab:key,pattern},location.origin)}catch(e){console.warn('navigation',e)}
+}
 function goClan(pattern){
  play();
- if(!loaded){document.getElementById('missing').hidden=false;return}
- try{
-  const d=frame.contentDocument;
-  const target=Array.from(d.querySelectorAll('.dojo-map-node')).find(el=>(el.getAttribute('aria-label')||'').includes(', '+pattern+','));
-  if(target){
-   const home=Array.from(d.querySelectorAll('nav.tabs button'))[0];
-   if(home)home.click();
-   target.dispatchEvent(new MouseEvent('click',{bubbles:true}));
-   setActive('liste');
-   setTimeout(resize,180);
-   return;
-  }
- }catch(e){console.warn('Clan navigation failed',e)}
- go('liste');
+ if(!['AAA','ABA','ABB','ABC'].includes(pattern))return;
+ sendNav('liste',pattern);
+ setActive('liste');
 }
-function go(key){play();if(!loaded){document.getElementById('missing').hidden=false;return}let doc;try{doc=frame.contentDocument}catch(e){return}const tabs=Array.from(doc.querySelectorAll('nav.tabs button'));const order=['home','regles','liste','memory','quiz','progres'];const index=order.indexOf(key);if(index<0||!tabs[index])return;tabs[index].click();setActive(key);setTimeout(resize,180)}
+function go(key){
+ play();
+ sendNav(key);
+ if(!loaded){try{const d=frame.contentDocument;const t=Array.from(d.querySelectorAll('nav.tabs button'));const i=['home','regles','liste','memory','quiz','progres'].indexOf(key);if(t[i])t[i].click()}catch(e){}}
+ setActive(key);
+ setTimeout(resize,180);
+}
 function resize(){if(!loaded)return;cancelAnimationFrame(resizeJob);resizeJob=requestAnimationFrame(()=>{try{const d=frame.contentDocument;const content=d.querySelector('.app-shell');if(content){const h=Math.ceil(Math.max(content.scrollHeight,content.getBoundingClientRect().height)+35);frame.style.height=Math.max(380,Math.min(14000,h))+'px'}}catch(e){}})}
 function sync(){try{const progress=JSON.parse(localStorage.getItem('verbforge_progress_v1')||'{}');const xp=Number(progress.xp)||0;const lv=Math.floor(xp/100)+1;document.getElementById('level').textContent=`RANK ${String(lv).padStart(2,'0')}`;document.getElementById('xp').textContent=`✦ ${xp} XP`;document.getElementById('streak').textContent=`${progress.streak||0} DAY STREAK`;document.getElementById('xpbar').style.width=`${xp%100}%`}catch(e){}}
 
@@ -169,7 +169,7 @@ function showVerbIllustration(payload){
  close.addEventListener('click',shut);layer.addEventListener('click',e=>{if(e.target===layer)shut()});document.addEventListener('keydown',escapeClose);close.focus();
 }
 window.addEventListener('message',e=>{if(e.source!==frame.contentWindow||e.origin!==location.origin)return;if(e.data?.type==='verb-dojo-illustration')showVerbIllustration(e.data)});
-function init(){try{addSensei();renderDaily();v5Mount();v6EnableImages();decorateAllIcons();const d=frame.contentDocument;if(!d.querySelector('nav.tabs')){document.getElementById('missing').hidden=false;frame.hidden=true;return}const l=d.createElement('link');l.rel='stylesheet';l.href='dojo-theme.css?v=pronunciation-per-form-v19';d.head.appendChild(l);loaded=true;d.addEventListener('click',e=>{if(e.target.closest('button'))play()});d.documentElement.style.overflow='hidden';d.body.style.overflow='hidden';const obs=new MutationObserver(()=>{resize();const buttons=Array.from(d.querySelectorAll('nav.tabs button'));const active=buttons.findIndex(el=>el.classList.contains('active'));const keys=['home','regles','liste','memory','quiz','progres'];if(active!==-1&&keys[active]!==view)setActive(keys[active],false);sync()});obs.observe(d.getElementById('root')||d.body,{childList:true,subtree:true,characterData:true});d.fonts?.ready.then(resize);setTimeout(resize,500);setTimeout(resize,2000);sync()}catch(e){document.getElementById('missing').hidden=false}}
+function init(){try{addSensei();renderDaily();v5Mount();v6EnableImages();decorateAllIcons();const d=frame.contentDocument;if(!d.querySelector('nav.tabs')){frame.hidden=false;setTimeout(()=>{if(!loaded)init()},700);return}if(loaded)return;const l=d.createElement('link');l.rel='stylesheet';l.href='dojo-theme.css?v=mobile-nav-v25';d.head.appendChild(l);loaded=true;document.getElementById('missing').hidden=true;d.addEventListener('click',e=>{if(e.target.closest('button'))play()});d.documentElement.style.overflow='hidden';d.body.style.overflow='hidden';const obs=new MutationObserver(()=>{resize();const buttons=Array.from(d.querySelectorAll('nav.tabs button'));const active=buttons.findIndex(el=>el.classList.contains('active'));const keys=['home','regles','liste','memory','quiz','progres'];if(active!==-1&&keys[active]!==view)setActive(keys[active],false);sync()});obs.observe(d.getElementById('root')||d.body,{childList:true,subtree:true,characterData:true});d.fonts?.ready.then(resize);setTimeout(resize,500);setTimeout(resize,2000);sync()}catch(e){document.getElementById('missing').hidden=false}}
 document.addEventListener('keydown',e=>{if(e.altKey&&!e.ctrlKey&&!e.metaKey&&/^[1-6]$/.test(e.key)){e.preventDefault();go(['home','regles','liste','memory','quiz','progres'][Number(e.key)-1])}});
 frame.addEventListener('load',init);
 document.querySelectorAll('[data-clan]').forEach(el=>el.addEventListener('click',()=>goClan(el.dataset.clan)));
