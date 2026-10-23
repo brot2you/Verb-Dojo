@@ -294,12 +294,15 @@ const VERIFIED_HUMAN_AUDIO={
     "https://commons.wikimedia.org/wiki/Special:Redirect/file/En-uk-to_read.ogg",
     "https://commons.wikimedia.org/wiki/Special:Redirect/file/En-us-read-past.ogg",
     "https://commons.wikimedia.org/wiki/Special:Redirect/file/En-us-read-past.ogg"
-  ]
+  ],
+  lead:[null,"https://commons.wikimedia.org/wiki/Special:Redirect/file/En-us-led.ogg","https://commons.wikimedia.org/wiki/Special:Redirect/file/En-us-led.ogg"],
+  bear:["https://commons.wikimedia.org/wiki/Special:Redirect/file/En-us-bear.ogg",null,null],
+  be:[null,"https://commons.wikimedia.org/wiki/Special:Redirect/file/En-us-was.ogg",null]
 };
 function speakVerbForms(v){
-  if(!('speechSynthesis' in window))return;
-  window.speechSynthesis.cancel();
+  if('speechSynthesis' in window)window.speechSynthesis.cancel();
   window.__verbDojoAudio?.pause();
+  window.__verbDojoAudioRequest=(window.__verbDojoAudioRequest||0)+1;
   const pronunciationContexts={
     read:["I read books every day.","Yesterday, I read a book.","I have read that book."],
     lead:["I lead the group.","Yesterday, I led the group.","I have led the group."],
@@ -315,9 +318,10 @@ function speakVerbForms(v){
   const forms=pronunciationContexts[v.v1]||[v.v1,v.v2,v.v3];
   const english=window.speechSynthesis.getVoices().filter(voice=>/^en(-|$)/i.test(voice.lang));
   const voice=english.find(voice=>/^en-GB$/i.test(voice.lang))||english[0]||null;
-  const requestId=window.__verbDojoAudioRequest=(window.__verbDojoAudioRequest||0)+1;
+  const requestId=window.__verbDojoAudioRequest;
   let i=0;
   function playTTS(text,done){
+    if(!('speechSynthesis' in window)){done();return}
     const u=new SpeechSynthesisUtterance(text);
     u.lang=voice?.lang||"en-GB";if(voice)u.voice=voice;u.rate=.82;
     u.onend=done;u.onerror=done;window.speechSynthesis.speak(u);
