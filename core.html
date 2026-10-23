@@ -282,9 +282,11 @@ function speak(text){
 }
 
 /* Homographs such as READ require distinct grammatical contexts for speech synthesis. */
+const RECORDED_VERB_AUDIO=new Set("read lead wind tear lie lay bear hang be sow".split(" "));
 function speakVerbForms(v){
   if(!('speechSynthesis' in window))return;
   window.speechSynthesis.cancel();
+  window.__verbDojoAudio?.pause();
   const pronunciationContexts={
     read:["I read books every day.","Yesterday, I read a book.","I have read that book."],
     lead:["I lead the group.","Yesterday, I led the group.","I have led the group."],
@@ -300,15 +302,22 @@ function speakVerbForms(v){
   const forms=pronunciationContexts[v.v1]||[v.v1,v.v2,v.v3];
   const english=window.speechSynthesis.getVoices().filter(voice=>/^en(-|$)/i.test(voice.lang));
   const voice=english.find(voice=>/^en-GB$/i.test(voice.lang))||english[0]||null;
+  const requestId=window.__verbDojoAudioRequest=(window.__verbDojoAudioRequest||0)+1;
   let i=0;
+  function playTTS(text,done){
+    const u=new SpeechSynthesisUtterance(text);
+    u.lang=voice?.lang||"en-GB";if(voice)u.voice=voice;u.rate=.82;
+    u.onend=done;u.onerror=done;window.speechSynthesis.speak(u);
+  }
   function next(){
-    if(i>=forms.length)return;
-    const utterance=new SpeechSynthesisUtterance(forms[i++]);
-    utterance.lang=voice?.lang||"en-GB";
-    if(voice)utterance.voice=voice;
-    utterance.rate=.82;
-    utterance.onend=next;
-    window.speechSynthesis.speak(utterance);
+    if(requestId!==window.__verbDojoAudioRequest||i>=3)return;
+    const index=i++;
+    if(!RECORDED_VERB_AUDIO.has(v.v1)){playTTS(forms[index],next);return}
+    const audio=new Audio("assets/audio/verbs/"+v.v1+"-"+(index+1)+".mp3?v=16");
+    window.__verbDojoAudio=audio;
+    audio.onended=next;
+    audio.onerror=()=>{if(requestId===window.__verbDojoAudioRequest)playTTS(forms[index],next)};
+    audio.play().catch(()=>{if(requestId===window.__verbDojoAudioRequest)playTTS(forms[index],next)});
   }
   next();
 }
