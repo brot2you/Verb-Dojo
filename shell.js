@@ -143,9 +143,10 @@ function resize(){if(!loaded)return;cancelAnimationFrame(resizeJob);resizeJob=re
 function sync(){try{const progress=JSON.parse(localStorage.getItem('verbforge_progress_v1')||'{}');const xp=Number(progress.xp)||0;const lv=Math.floor(xp/100)+1;document.getElementById('level').textContent=`RANK ${String(lv).padStart(2,'0')}`;document.getElementById('xp').textContent=`✦ ${xp} XP`;document.getElementById('streak').textContent=`${progress.streak||0} DAY STREAK`;document.getElementById('xpbar').style.width=`${xp%100}%`}catch(e){}}
 
 /* Full-screen illustration dialog in the outer shell, not clipped by the iframe. */
+const lot4Vignettes=new Set("get make hold pay lose think sleep speak stand throw".split(" "));
 const lot3Vignettes=new Set("catch come seek tell hear meet cut keep hit leave".split(" "));
 const lot2Vignettes=new Set("drive draw drink fight eat give fall fly forget find".split(" "));
-const approvedVignettes=new Set("be become begin build buy choose go run write read drive draw drink fight eat give fall fly forget find catch come seek tell hear meet cut keep hit leave".split(" "));
+const approvedVignettes=new Set("be become begin build buy choose go run write read drive draw drink fight eat give fall fly forget find catch come seek tell hear meet cut keep hit leave get make hold pay lose think sleep speak stand throw".split(" "));
 function showVerbIllustration(payload){
  const verb=String(payload.verb||"");
  if(!approvedVignettes.has(verb))return;
@@ -158,7 +159,7 @@ function showVerbIllustration(payload){
  card.setAttribute('role','dialog');card.setAttribute('aria-modal','true');card.setAttribute('aria-label','Illustration: '+verb);
  card.style.cssText='position:relative;width:min(430px,95vw);max-height:94vh;overflow:auto;background:#fff0d2;border:4px solid #ecb95f;border-radius:20px;padding:12px;text-align:center;box-shadow:0 22px 85px #0008';
  const close=document.createElement('button');close.type='button';close.textContent='×';close.setAttribute('aria-label','Fermer');close.style.cssText='position:absolute;right:17px;top:17px;background:#152f58;color:white;border:2px solid #e7ba68;border-radius:50%;width:40px;height:40px;font-size:28px;cursor:pointer;z-index:2';
- const image=document.createElement('img');image.src='assets/verbs/'+verb+(lot3Vignettes.has(verb)?'-lot3':lot2Vignettes.has(verb)?'-lot2':'')+'.webp?v=illustrations-lot3-v21';image.alt='Illustration de '+verb;image.style.cssText='display:block;width:100%;aspect-ratio:1;object-fit:contain;border-radius:12px';
+ const image=document.createElement('img');image.src='assets/verbs/'+verb+(lot4Vignettes.has(verb)?'-lot4':lot3Vignettes.has(verb)?'-lot3':lot2Vignettes.has(verb)?'-lot2':'')+'.webp?v=illustrations-lot4-v22';image.alt='Illustration de '+verb;image.style.cssText='display:block;width:100%;aspect-ratio:1;object-fit:contain;border-radius:12px';
  const heading=document.createElement('h2');heading.textContent=verb.toUpperCase();heading.style.cssText='font:900 28px Nunito,sans-serif;color:#15365e;margin:9px 0 3px';
  const forms=document.createElement('p');forms.textContent=String(payload.v2||'')+' · '+String(payload.v3||'');forms.style.cssText='font-weight:900;margin:4px;color:#443929';
  const translation=document.createElement('p');translation.textContent=String(payload.fr||'');translation.style.cssText='margin:3px 0 6px;color:#685037';
