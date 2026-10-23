@@ -169,7 +169,33 @@ function showVerbIllustration(payload){
  close.addEventListener('click',shut);layer.addEventListener('click',e=>{if(e.target===layer)shut()});document.addEventListener('keydown',escapeClose);close.focus();
 }
 window.addEventListener('message',e=>{if(e.source!==frame.contentWindow||e.origin!==location.origin)return;if(e.data?.type==='verb-dojo-illustration')showVerbIllustration(e.data)});
-function init(){try{addSensei();renderDaily();v5Mount();v6EnableImages();decorateAllIcons();const d=frame.contentDocument;if(!d.querySelector('nav.tabs')){document.getElementById('missing').hidden=false;frame.hidden=true;return}const l=d.createElement('link');l.rel='stylesheet';l.href='dojo-theme.css?v=pronunciation-per-form-v19';d.head.appendChild(l);loaded=true;d.addEventListener('click',e=>{if(e.target.closest('button'))play()});d.documentElement.style.overflow='hidden';d.body.style.overflow='hidden';const obs=new MutationObserver(()=>{resize();const buttons=Array.from(d.querySelectorAll('nav.tabs button'));const active=buttons.findIndex(el=>el.classList.contains('active'));const keys=['home','regles','liste','memory','quiz','progres'];if(active!==-1&&keys[active]!==view)setActive(keys[active],false);sync()});obs.observe(d.getElementById('root')||d.body,{childList:true,subtree:true,characterData:true});d.fonts?.ready.then(resize);setTimeout(resize,500);setTimeout(resize,2000);sync()}catch(e){document.getElementById('missing').hidden=false}}
+let enginePoll=null;
+function init(){
+  clearInterval(enginePoll);
+  let attempts=0;
+  enginePoll=setInterval(()=>{
+    try{
+      const d=frame.contentDocument;
+      if(!d||!d.querySelector('nav.tabs')){
+        if(++attempts<100)return;
+        clearInterval(enginePoll);
+        const missing=document.getElementById('missing');
+        missing.hidden=false;
+        missing.querySelector('h2').textContent="Le dojo met du temps à se charger";
+        missing.querySelector('p').textContent="Vérifie ta connexion puis actualise la page. Les ressources du jeu peuvent nécessiter quelques secondes.";
+        frame.hidden=false;
+        frame.style.height='420px';
+        return;
+      }
+      clearInterval(enginePoll);
+      if(loaded)return;
+      addSensei();renderDaily();v5Mount();v6EnableImages();decorateAllIcons();
+      document.getElementById('missing').hidden=true;
+      frame.hidden=false;
+      const existing=d.getElementById('dojo-theme-v23');
+      if(!existing){const l=d.createElement('link');l.id='dojo-theme-v23';l.rel='stylesheet';l.href='dojo-theme.css?v=mobile-load-v23';d.head.appendChild(l)}
+      loaded=true;d.addEventListener('click',e=>{if(e.target.closest('button'))play()});d.documentElement.style.overflow='hidden';d.body.style.overflow='hidden';const obs=new MutationObserver(()=>{resize();const buttons=Array.from(d.querySelectorAll('nav.tabs button'));const active=buttons.findIndex(el=>el.classList.contains('active'));const keys=['home','regles','liste','memory','quiz','progres'];if(active!==-1&&keys[active]!==view)setActive(keys[active],false);sync()});obs.observe(d.getElementById('root')||d.body,{childList:true,subtree:true,characterData:true});d.fonts?.ready.then(resize);setTimeout(resize,500);setTimeout(resize,2000);sync()}catch(e){console.warn('Verb Dojo load issue',e);}} ,250);
+}
 document.addEventListener('keydown',e=>{if(e.altKey&&!e.ctrlKey&&!e.metaKey&&/^[1-6]$/.test(e.key)){e.preventDefault();go(['home','regles','liste','memory','quiz','progres'][Number(e.key)-1])}});
 frame.addEventListener('load',init);
 document.querySelectorAll('[data-clan]').forEach(el=>el.addEventListener('click',()=>goClan(el.dataset.clan)));
