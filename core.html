@@ -234,6 +234,8 @@ const VERBS = [
   ["undergo","underwent","undergone","subir / traverser","ABC"],
 ].map((v,i)=>({id:i, v1:v[0], v2:v[1], v3:v[2], fr:v[3], pattern:v[4]}));
 
+const ILLUSTRATED_VERBS=new Set("be become begin bring build buy catch choose come do draw drink drive eat fall find fly forget get give go grow have hear keep know leave lose make meet pay put read ride run say see send sing sit".split(" "));
+
 const PATTERNS = {
   AAA:{label:"AAA — identique", color:"var(--aaa)", bg:"var(--aaa-bg)", desc:"Les 3 formes sont identiques.", example:"cut – cut – cut"},
   ABA:{label:"ABA — base = participe", color:"var(--aba)", bg:"var(--aba-bg)", desc:"La base et le participe passé sont identiques, seul le prétérit change.", example:"come – came – come"},
@@ -532,6 +534,7 @@ function Regles({onGoList}){
 /* ---------------- LISTE ---------------- */
 function ListePage({filterInit}){
   const [q,setQ] = useState("");
+  const [illustration,setIllustration] = useState(null);
   const [filter,setFilter] = useState(filterInit||null);
   useEffect(()=>{ setFilter(filterInit||null); },[filterInit]);
 
@@ -561,7 +564,12 @@ function ListePage({filterInit}){
                 <td style={{borderLeftColor:PATTERNS[v.pattern].color, width:36}}>
                   <button className="speakbtn" onClick={()=>speak(v.v1+", "+v.v2+", "+v.v3)}>🔊</button>
                 </td>
-                <td className="v1cell">{v.v1}</td>
+                <td className="v1cell"><div className="verb-vignette-cell">
+                    {ILLUSTRATED_VERBS.has(v.v1) && <button type="button" className="verb-vignette-button" aria-label={"See manga illustration for "+v.v1} onClick={()=>setIllustration(v)}>
+                      <img src={"assets/verbs/"+v.v1+".webp"} alt="" loading="lazy" onError={e=>{e.currentTarget.parentElement.style.display="none"}}/>
+                    </button>}
+                    <span>{v.v1}</span>
+                  </div></td>
                 <td>{v.v2}</td>
                 <td>{v.v3}</td>
                 <td className="frcell">{v.fr}</td>
@@ -571,6 +579,13 @@ function ListePage({filterInit}){
           </tbody>
         </table>
         {filtered.length===0 && <p style={{color:"var(--ink-soft)",textAlign:"center"}}>Aucun verbe trouvé.</p>}
+      {illustration && <div className="verb-vignette-overlay" role="presentation" onClick={()=>setIllustration(null)}>
+        <div className="verb-vignette-dialog" role="dialog" aria-modal="true" aria-label={"Illustration: "+illustration.v1} onClick={e=>e.stopPropagation()}>
+          <button type="button" className="verb-vignette-close" onClick={()=>setIllustration(null)} aria-label="Close illustration">×</button>
+          <img src={"assets/verbs/"+illustration.v1+".webp"} alt={"Manga illustration of "+illustration.v1}/>
+          <div className="verb-vignette-caption"><strong>{illustration.v1}</strong><span>{illustration.v2} · {illustration.v3}</span><small>{illustration.fr}</small></div>
+        </div>
+      </div>}
       </div>
     </section>
   );
