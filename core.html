@@ -281,6 +281,28 @@ function speak(text){
   window.speechSynthesis.speak(u);
 }
 
+/* Homographs such as READ require distinct grammatical contexts for speech synthesis. */
+function speakVerbForms(v){
+  if(!('speechSynthesis' in window))return;
+  window.speechSynthesis.cancel();
+  const forms=v.v1==="read"
+    ? ["I read books every day.","Yesterday, I read a book.","I have read that book."]
+    : [v.v1,v.v2,v.v3];
+  const english=window.speechSynthesis.getVoices().filter(voice=>/^en(-|$)/i.test(voice.lang));
+  const voice=english.find(voice=>/^en-GB$/i.test(voice.lang))||english[0]||null;
+  let i=0;
+  function next(){
+    if(i>=forms.length)return;
+    const utterance=new SpeechSynthesisUtterance(forms[i++]);
+    utterance.lang=voice?.lang||"en-GB";
+    if(voice)utterance.voice=voice;
+    utterance.rate=.82;
+    utterance.onend=next;
+    window.speechSynthesis.speak(utterance);
+  }
+  next();
+}
+
 /* ---------------- ROOT APP ---------------- */
 function App(){
   const [tab,setTab] = useState("home");
@@ -562,7 +584,7 @@ function ListePage({filterInit}){
             {filtered.map(v=>(
               <tr key={v.id}>
                 <td style={{borderLeftColor:PATTERNS[v.pattern].color, width:36}}>
-                  <button className="speakbtn" onClick={()=>speak(v.v1+", "+v.v2+", "+v.v3)}>🔊</button>
+                  <button className="speakbtn" onClick={()=>speakVerbForms(v)} title={v.v1==="read"?"read /riːd/ · read /red/ · read /red/":"Écouter les trois formes"} aria-label={"Écouter les trois formes de "+v.v1}>🔊</button>
                 </td>
                 <td className="v1cell"><div className="verb-vignette-cell">
                     {ILLUSTRATED_VERBS.has(v.v1) && <button type="button" className="verb-vignette-button" aria-label={"See manga illustration for "+v.v1} onClick={()=>window.parent.postMessage({type:"verb-dojo-illustration",verb:v.v1,v2:v.v2,v3:v.v3,fr:v.fr},"*")}>
