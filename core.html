@@ -285,9 +285,19 @@ function speak(text){
 function speakVerbForms(v){
   if(!('speechSynthesis' in window))return;
   window.speechSynthesis.cancel();
-  const forms=v.v1==="read"
-    ? ["I read books every day.","Yesterday, I read a book.","I have read that book."]
-    : [v.v1,v.v2,v.v3];
+  const pronunciationContexts={
+    read:["I read books every day.","Yesterday, I read a book.","I have read that book."],
+    lead:["I lead the group.","Yesterday, I led the group.","I have led the group."],
+    wind:["I wind up the clock.","Yesterday, I wound up the clock.","I have wound up the clock."],
+    tear:["I tear the paper.","Yesterday, I tore the paper.","I have torn the paper."],
+    lie:["I lie down to rest.","Yesterday, I lay down to rest.","I have lain down to rest."],
+    lay:["I lay the book on the table.","Yesterday, I laid the book on the table.","I have laid the book on the table."],
+    bear:["I can bear the weight.","Yesterday, I bore the weight.","I have borne the weight."],
+    hang:["I hang the picture.","Yesterday, I hung the picture.","I have hung the picture."],
+    be:["I am here.","Yesterday, I was here.","I have been here."],
+    sow:["I sow the seeds.","Yesterday, I sowed the seeds.","I have sown the seeds."]
+  };
+  const forms=pronunciationContexts[v.v1]||[v.v1,v.v2,v.v3];
   const english=window.speechSynthesis.getVoices().filter(voice=>/^en(-|$)/i.test(voice.lang));
   const voice=english.find(voice=>/^en-GB$/i.test(voice.lang))||english[0]||null;
   let i=0;
