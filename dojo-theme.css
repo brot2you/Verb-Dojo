@@ -117,3 +117,17 @@ section.panel h2{letter-spacing:.3px!important}
 .badge-grid .badge .dojo-achievement-art{display:block!important;box-sizing:border-box!important;width:148px!important;height:148px!important;max-width:100%!important;max-height:100%!important;object-fit:contain!important;object-position:50% 50%!important;margin:auto!important;position:static!important;transform:none!important}
 .badge-grid .badge .nm{width:100%!important;text-align:center!important;margin:9px auto 0!important}
 @media(max-width:450px){.badge-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important}.badge-grid .badge .ic{height:128px!important;min-height:128px!important;flex-basis:128px!important}.badge-grid .badge .dojo-achievement-art{width:124px!important;height:124px!important}}
+
+/* V12 illustrated verb vocabulary, opt-in via image files */
+.verb-vignette-cell{display:flex;align-items:center;gap:10px;min-height:46px}
+.verb-vignette-button{flex:0 0 46px;width:46px;height:46px;border:2px solid #d8a44f;border-radius:9px;background:#fff2d9;padding:0;overflow:hidden;box-shadow:0 2px 5px #38281933;cursor:zoom-in}
+.verb-vignette-button img{display:block;width:100%;height:100%;object-fit:cover}
+.verb-vignette-button:hover,.verb-vignette-button:focus-visible{outline:2px solid #ffbe4a;outline-offset:2px}
+.verb-vignette-overlay{position:fixed;inset:0;z-index:200;display:grid;place-items:center;padding:18px;background:#071a36cc;backdrop-filter:blur(5px)}
+.verb-vignette-dialog{position:relative;width:min(360px,95vw);max-height:90vh;overflow:auto;padding:14px;border-radius:22px;border:3px solid #f2c36b;background:linear-gradient(145deg,#fff7dd,#e5bf83);box-shadow:0 20px 70px #070f26aa;text-align:center}
+.verb-vignette-dialog>img{display:block;width:100%;aspect-ratio:1;object-fit:contain;border:3px solid #a5713b;border-radius:14px}
+.verb-vignette-close{position:absolute;top:18px;right:18px;border:0;border-radius:50%;background:#1b345c;color:#fff;width:36px;height:36px;font-size:25px;cursor:pointer}
+.verb-vignette-caption{display:flex;flex-direction:column;gap:3px;padding:9px;color:#25304c}
+.verb-vignette-caption strong{font:900 28px Fredoka,Nunito,sans-serif;text-transform:uppercase}
+.verb-vignette-caption span{font-weight:900;font-size:17px}
+.verb-vignette-caption small{font-size:14px;font-weight:700;color:#765d44}
