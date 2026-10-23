@@ -131,3 +131,6 @@ section.panel h2{letter-spacing:.3px!important}
 .verb-vignette-caption strong{font:900 28px Fredoka,Nunito,sans-serif;text-transform:uppercase}
 .verb-vignette-caption span{font-weight:900;font-size:17px}
 .verb-vignette-caption small{font-size:14px;font-weight:700;color:#765d44}
+
+/* V19: listening to each grammatical form separately */
+.dojo-form-audio{display:inline-flex;align-items:center;justify-content:center;min-width:30px;min-height:30px;margin-left:5px;padding:3px;background:#f8e8c8;color:#21395d;border:1px solid #d6b777;border-radius:8px;cursor:pointer;font-size:14px;vertical-align:middle}.dojo-form-audio:hover,.dojo-form-audio:focus-visible{background:#ebcb87;outline:2px solid #bea05b;outline-offset:1px}
