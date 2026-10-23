@@ -347,6 +347,25 @@ function speakVerbForms(v){
 /* ---------------- ROOT APP ---------------- */
 function App(){
   const [tab,setTab] = useState("home");
+  useEffect(()=>{
+    const onNavigation=event=>{
+      if(event.origin!==window.location.origin||event.source!==window.parent)return;
+      const msg=event.data;
+      if(!msg||msg.type!=="verb-dojo-navigate")return;
+      const allowed=["home","regles","liste","memory","quiz","progres"];
+      if(!allowed.includes(msg.tab))return;
+      if(msg.pattern&&["AAA","ABA","ABB","ABC"].includes(msg.pattern)){
+        setPatternFilter(msg.pattern);
+        setTab("liste");
+      }else{
+        if(msg.tab==="liste")setPatternFilter(null);
+        setTab(msg.tab);
+      }
+    };
+    window.addEventListener("message",onNavigation);
+    return ()=>window.removeEventListener("message",onNavigation);
+  },[]);
+
   const [progress,setProgress] = useState(loadProgress());
   const [newBadge,setNewBadge] = useState(null);
   const [patternFilter,setPatternFilter] = useState(null);
