@@ -234,7 +234,9 @@ const VERBS = [
   ["undergo","underwent","undergone","subir / traverser","ABC"],
 ].map((v,i)=>({id:i, v1:v[0], v2:v[1], v3:v[2], fr:v[3], pattern:v[4]}));
 
-const ILLUSTRATED_VERBS=new Set("be become begin build buy choose go run write read".split(" "));
+const LOT2_VERBS=new Set("drive draw drink fight eat give fall fly forget find".split(" "));
+const ILLUSTRATED_VERBS=new Set("be become begin build buy choose go run write read drive draw drink fight eat give fall fly forget find".split(" "));
+const verbImagePath=verb=>"assets/verbs/"+verb+(LOT2_VERBS.has(verb)?"-lot2":"")+".webp?v=illustrations-lot2-v20";
 
 const PATTERNS = {
   AAA:{label:"AAA — identique", color:"var(--aaa)", bg:"var(--aaa-bg)", desc:"Les 3 formes sont identiques.", example:"cut – cut – cut"},
@@ -625,7 +627,7 @@ function ListePage({filterInit}){
                 </td>
                 <td className="v1cell"><div className="verb-vignette-cell">
                     {ILLUSTRATED_VERBS.has(v.v1) && <button type="button" className="verb-vignette-button" aria-label={"See manga illustration for "+v.v1} onClick={()=>window.parent.postMessage({type:"verb-dojo-illustration",verb:v.v1,v2:v.v2,v3:v.v3,fr:v.fr},"*")}>
-                      <img src={"assets/verbs/"+v.v1+".webp?v=lot1-clean-20261023"} alt="" loading="lazy" onError={e=>{e.currentTarget.parentElement.style.display="none"}}/>
+                      <img src={verbImagePath(v.v1)} alt="" loading="lazy" onError={e=>{e.currentTarget.parentElement.style.display="none"}}/>
                     </button>}
                     <span>{v.v1}</span>{AUDIO_IPA[v.v1] && <button type="button" className="dojo-form-audio" onClick={()=>speakVerbForm(v,0)} title={AUDIO_IPA[v.v1][0]} aria-label={"Écouter "+v.v1+" : "+AUDIO_IPA[v.v1][0]}>🔉</button>}
                   </div></td>
