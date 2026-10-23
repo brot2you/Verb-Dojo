@@ -282,61 +282,61 @@ function speak(text){
 }
 
 /* Homographs such as READ require distinct grammatical contexts for speech synthesis. */
-const RECORDED_VERB_AUDIO=new Set("read lead wind tear lie lay bear hang be sow".split(" "));
-/* Verified human recordings from Wikimedia Commons:
-   read V1: Judith Franck, London, CC BY 3.0 US
-   read V2/V3: Dvortygirl, US pronunciation, public domain.
-   Sources and attribution: AUDIO-CREDITS.md
-   Do not synthesize paths for other words: lexical readings differ by context.
-*/
-const VERIFIED_HUMAN_AUDIO={
-  read:[
-    "https://commons.wikimedia.org/wiki/Special:Redirect/file/En-uk-to_read.ogg",
-    "https://commons.wikimedia.org/wiki/Special:Redirect/file/En-us-read-past.ogg",
-    "https://commons.wikimedia.org/wiki/Special:Redirect/file/En-us-read-past.ogg"
-  ],
+const HUMAN_AUDIO={
+  read:["https://commons.wikimedia.org/wiki/Special:Redirect/file/En-uk-to_read.ogg","https://commons.wikimedia.org/wiki/Special:Redirect/file/En-us-read-past.ogg","https://commons.wikimedia.org/wiki/Special:Redirect/file/En-us-read-past.ogg"],
   lead:[null,"https://commons.wikimedia.org/wiki/Special:Redirect/file/En-us-led.ogg","https://commons.wikimedia.org/wiki/Special:Redirect/file/En-us-led.ogg"],
   bear:["https://commons.wikimedia.org/wiki/Special:Redirect/file/En-us-bear.ogg",null,null],
   be:[null,"https://commons.wikimedia.org/wiki/Special:Redirect/file/En-us-was.ogg",null]
 };
-function speakVerbForms(v){
+const AUDIO_CONTEXT={
+  read:["I read books every day.","Yesterday, I read a book.","I have read that book."],
+  lead:["I lead the group.","Yesterday, I led the group.","I have led the group."],
+  wind:["I wind up the clock.","Yesterday, I wound up the clock.","I have wound up the clock."],
+  tear:["I tear the paper.","Yesterday, I tore the paper.","I have torn the paper."],
+  lie:["I lie down to rest.","Yesterday, I lay down to rest.","I have lain down to rest."],
+  lay:["I lay the book on the table.","Yesterday, I laid the book on the table.","I have laid the book on the table."],
+  bear:["I can bear the weight.","Yesterday, I bore the weight.","I have borne the weight."],
+  hang:["I hang the picture.","Yesterday, I hung the picture.","I have hung the picture."],
+  be:["I am here.","Yesterday, I was here.","I have been here."],
+  sow:["I sow the seeds.","Yesterday, I sowed the seeds.","I have sown the seeds."]
+};
+const AUDIO_IPA={
+  wind:["/waɪnd/","/waʊnd/","/waʊnd/"],
+  tear:["/teə/","/tɔː/","/tɔːn/"],
+  lie:["/laɪ/","/leɪ/","/leɪn/"],
+  lay:["/leɪ/","/leɪd/","/leɪd/"],
+  bear:["/beə/","/bɔː/","/bɔːn/"],
+  hang:["/hæŋ/","/hʌŋ/","/hʌŋ/"],
+  be:["/biː/","/wɒz, wɜː/","/biːn/"],
+  sow:["/səʊ/","/səʊd/","/səʊn/"],
+  read:["/riːd/","/red/","/red/"],
+  lead:["/liːd/","/led/","/led/"]
+};
+function speakVerbForm(v,which=0,then=null){
+  const runId=window.__dojoAudioRun=(window.__dojoAudioRun||0)+1;
   if('speechSynthesis' in window)window.speechSynthesis.cancel();
-  window.__verbDojoAudio?.pause();
-  window.__verbDojoAudioRequest=(window.__verbDojoAudioRequest||0)+1;
-  const pronunciationContexts={
-    read:["I read books every day.","Yesterday, I read a book.","I have read that book."],
-    lead:["I lead the group.","Yesterday, I led the group.","I have led the group."],
-    wind:["I wind up the clock.","Yesterday, I wound up the clock.","I have wound up the clock."],
-    tear:["I tear the paper.","Yesterday, I tore the paper.","I have torn the paper."],
-    lie:["I lie down to rest.","Yesterday, I lay down to rest.","I have lain down to rest."],
-    lay:["I lay the book on the table.","Yesterday, I laid the book on the table.","I have laid the book on the table."],
-    bear:["I can bear the weight.","Yesterday, I bore the weight.","I have borne the weight."],
-    hang:["I hang the picture.","Yesterday, I hung the picture.","I have hung the picture."],
-    be:["I am here.","Yesterday, I was here.","I have been here."],
-    sow:["I sow the seeds.","Yesterday, I sowed the seeds.","I have sown the seeds."]
-  };
-  const forms=pronunciationContexts[v.v1]||[v.v1,v.v2,v.v3];
-  const english=window.speechSynthesis.getVoices().filter(voice=>/^en(-|$)/i.test(voice.lang));
-  const voice=english.find(voice=>/^en-GB$/i.test(voice.lang))||english[0]||null;
-  const requestId=window.__verbDojoAudioRequest;
-  let i=0;
-  function playTTS(text,done){
-    if(!('speechSynthesis' in window)){done();return}
-    const u=new SpeechSynthesisUtterance(text);
-    u.lang=voice?.lang||"en-GB";if(voice)u.voice=voice;u.rate=.82;
-    u.onend=done;u.onerror=done;window.speechSynthesis.speak(u);
+  if(window.__dojoPlayingAudio){window.__dojoPlayingAudio.pause();window.__dojoPlayingAudio=null;}
+  const sentence=AUDIO_CONTEXT[v.v1]?.[which]||[v.v1,v.v2,v.v3][which];
+  function synth(){
+    if(window.__dojoAudioRun!==runId)return;
+    if(!('speechSynthesis' in window)){if(then)then();return;}
+    const voices=window.speechSynthesis.getVoices().filter(x=>/^en(-|$)/i.test(x.lang));
+    const voice=voices.find(x=>x.lang==="en-GB")||voices[0];
+    const u=new SpeechSynthesisUtterance(sentence);u.lang=voice?.lang||"en-GB";if(voice)u.voice=voice;u.rate=.83;
+    u.onend=()=>{if(window.__dojoAudioRun===runId&&then)then()};
+    u.onerror=()=>{if(window.__dojoAudioRun===runId&&then)then()};
+    window.speechSynthesis.speak(u);
   }
-  function next(){
-    if(requestId!==window.__verbDojoAudioRequest||i>=3)return;
-    const index=i++;
-    if(!RECORDED_VERB_AUDIO.has(v.v1)){playTTS(forms[index],next);return}
-    const source=VERIFIED_HUMAN_AUDIO[v.v1]?.[index]||("assets/audio/verbs/"+v.v1+"-"+(index+1)+".mp3?v=16");
-    const audio=new Audio(source);
-    window.__verbDojoAudio=audio;
-    audio.onended=next;
-    audio.onerror=()=>{if(requestId===window.__verbDojoAudioRequest)playTTS(forms[index],next)};
-    audio.play().catch(()=>{if(requestId===window.__verbDojoAudioRequest)playTTS(forms[index],next)});
-  }
+  const human=HUMAN_AUDIO[v.v1]?.[which];
+  if(!human){synth();return}
+  const audio=new Audio(human);window.__dojoPlayingAudio=audio;
+  audio.onended=()=>{if(window.__dojoAudioRun===runId&&then)then()};
+  audio.onerror=synth;
+  audio.play().catch(synth);
+}
+function speakVerbForms(v){
+  let which=0;
+  const next=()=>{if(which<3)speakVerbForm(v,which++,next)};
   next();
 }
 
@@ -627,10 +627,10 @@ function ListePage({filterInit}){
                     {ILLUSTRATED_VERBS.has(v.v1) && <button type="button" className="verb-vignette-button" aria-label={"See manga illustration for "+v.v1} onClick={()=>window.parent.postMessage({type:"verb-dojo-illustration",verb:v.v1,v2:v.v2,v3:v.v3,fr:v.fr},"*")}>
                       <img src={"assets/verbs/"+v.v1+".webp?v=lot1-clean-20261023"} alt="" loading="lazy" onError={e=>{e.currentTarget.parentElement.style.display="none"}}/>
                     </button>}
-                    <span>{v.v1}</span>
+                    <span>{v.v1}</span>{AUDIO_IPA[v.v1] && <button type="button" className="dojo-form-audio" onClick={()=>speakVerbForm(v,0)} title={AUDIO_IPA[v.v1][0]} aria-label={"Écouter "+v.v1+" : "+AUDIO_IPA[v.v1][0]}>🔉</button>}
                   </div></td>
-                <td>{v.v2}</td>
-                <td>{v.v3}</td>
+                <td>{v.v2}{AUDIO_IPA[v.v1]&&<button type="button" className="dojo-form-audio" onClick={()=>speakVerbForm(v,1)} title={AUDIO_IPA[v.v1][1]} aria-label={"Écouter "+v.v2+" : "+AUDIO_IPA[v.v1][1]}>🔉</button>}</td>
+                <td>{v.v3}{AUDIO_IPA[v.v1]&&<button type="button" className="dojo-form-audio" onClick={()=>speakVerbForm(v,2)} title={AUDIO_IPA[v.v1][2]} aria-label={"Écouter "+v.v3+" : "+AUDIO_IPA[v.v1][2]}>🔉</button>}</td>
                 <td className="frcell">{v.fr}</td>
                 <td><span className="pattern-pill" style={{background:PATTERNS[v.pattern].bg, color:PATTERNS[v.pattern].color}}>{v.pattern}</span></td>
               </tr>
