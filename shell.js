@@ -141,6 +141,31 @@ function goClan(pattern){
 function go(key){play();if(!loaded){document.getElementById('missing').hidden=false;return}let doc;try{doc=frame.contentDocument}catch(e){return}const tabs=Array.from(doc.querySelectorAll('nav.tabs button'));const order=['home','regles','liste','memory','quiz','progres'];const index=order.indexOf(key);if(index<0||!tabs[index])return;tabs[index].click();setActive(key);setTimeout(resize,180)}
 function resize(){if(!loaded)return;cancelAnimationFrame(resizeJob);resizeJob=requestAnimationFrame(()=>{try{const d=frame.contentDocument;const content=d.querySelector('.app-shell');if(content){const h=Math.ceil(Math.max(content.scrollHeight,content.getBoundingClientRect().height)+35);frame.style.height=Math.max(380,Math.min(14000,h))+'px'}}catch(e){}})}
 function sync(){try{const progress=JSON.parse(localStorage.getItem('verbforge_progress_v1')||'{}');const xp=Number(progress.xp)||0;const lv=Math.floor(xp/100)+1;document.getElementById('level').textContent=`RANK ${String(lv).padStart(2,'0')}`;document.getElementById('xp').textContent=`✦ ${xp} XP`;document.getElementById('streak').textContent=`${progress.streak||0} DAY STREAK`;document.getElementById('xpbar').style.width=`${xp%100}%`}catch(e){}}
+
+/* Full-screen illustration dialog in the outer shell, not clipped by the iframe. */
+const approvedVignettes=new Set("be become begin build buy choose go run write read".split(" "));
+function showVerbIllustration(payload){
+ const verb=String(payload.verb||"");
+ if(!approvedVignettes.has(verb))return;
+ document.getElementById('verbIllustrationModal')?.remove();
+ const layer=document.createElement('div');
+ layer.id='verbIllustrationModal';
+ layer.setAttribute('role','presentation');
+ layer.style.cssText='position:fixed;inset:0;z-index:99999;display:grid;place-items:center;background:rgba(6,17,38,.84);padding:15px;backdrop-filter:blur(5px)';
+ const card=document.createElement('div');
+ card.setAttribute('role','dialog');card.setAttribute('aria-modal','true');card.setAttribute('aria-label','Illustration: '+verb);
+ card.style.cssText='position:relative;width:min(430px,95vw);max-height:94vh;overflow:auto;background:#fff0d2;border:4px solid #ecb95f;border-radius:20px;padding:12px;text-align:center;box-shadow:0 22px 85px #0008';
+ const close=document.createElement('button');close.type='button';close.textContent='×';close.setAttribute('aria-label','Fermer');close.style.cssText='position:absolute;right:17px;top:17px;background:#152f58;color:white;border:2px solid #e7ba68;border-radius:50%;width:40px;height:40px;font-size:28px;cursor:pointer;z-index:2';
+ const image=document.createElement('img');image.src='assets/verbs/'+verb+'.webp?v=lot1-clean-20261023';image.alt='Illustration de '+verb;image.style.cssText='display:block;width:100%;aspect-ratio:1;object-fit:contain;border-radius:12px';
+ const heading=document.createElement('h2');heading.textContent=verb.toUpperCase();heading.style.cssText='font:900 28px Nunito,sans-serif;color:#15365e;margin:9px 0 3px';
+ const forms=document.createElement('p');forms.textContent=String(payload.v2||'')+' · '+String(payload.v3||'');forms.style.cssText='font-weight:900;margin:4px;color:#443929';
+ const translation=document.createElement('p');translation.textContent=String(payload.fr||'');translation.style.cssText='margin:3px 0 6px;color:#685037';
+ card.append(close,image,heading,forms,translation);layer.append(card);document.body.append(layer);
+ const shut=()=>{layer.remove();document.removeEventListener('keydown',escapeClose)};
+ const escapeClose=e=>{if(e.key==='Escape')shut()};
+ close.addEventListener('click',shut);layer.addEventListener('click',e=>{if(e.target===layer)shut()});document.addEventListener('keydown',escapeClose);close.focus();
+}
+window.addEventListener('message',e=>{if(e.source!==frame.contentWindow||e.origin!==location.origin)return;if(e.data?.type==='verb-dojo-illustration')showVerbIllustration(e.data)});
 function init(){try{addSensei();renderDaily();v5Mount();v6EnableImages();decorateAllIcons();const d=frame.contentDocument;if(!d.querySelector('nav.tabs')){document.getElementById('missing').hidden=false;frame.hidden=true;return}const l=d.createElement('link');l.rel='stylesheet';l.href='dojo-theme.css?v=illustrated-verbs-v12';d.head.appendChild(l);loaded=true;d.addEventListener('click',e=>{if(e.target.closest('button'))play()});d.documentElement.style.overflow='hidden';d.body.style.overflow='hidden';const obs=new MutationObserver(()=>{resize();const buttons=Array.from(d.querySelectorAll('nav.tabs button'));const active=buttons.findIndex(el=>el.classList.contains('active'));const keys=['home','regles','liste','memory','quiz','progres'];if(active!==-1&&keys[active]!==view)setActive(keys[active],false);sync()});obs.observe(d.getElementById('root')||d.body,{childList:true,subtree:true,characterData:true});d.fonts?.ready.then(resize);setTimeout(resize,500);setTimeout(resize,2000);sync()}catch(e){document.getElementById('missing').hidden=false}}
 document.addEventListener('keydown',e=>{if(e.altKey&&!e.ctrlKey&&!e.metaKey&&/^[1-6]$/.test(e.key)){e.preventDefault();go(['home','regles','liste','memory','quiz','progres'][Number(e.key)-1])}});
 frame.addEventListener('load',init);
